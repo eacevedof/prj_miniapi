@@ -9,12 +9,16 @@
  */
 namespace App\Controllers;
 
+use App\Models\EmpleadoModel;
+
 class EmpleadosController 
 {
     // listado
     public function index()
     {
-        bug("empleados.index");
+        $oEmpleado = new EmpleadoModel();
+        $arRows = $oEmpleado->get_list();
+        $this->show_json($arRows);
     }
     
     // detalle / ficha del empleado
@@ -29,4 +33,10 @@ class EmpleadosController
         bug("empleados.insert");
     }
 
+    private function show_json($arRows)
+    {
+        $arTmp["data"] = $arRows; 
+        $sJson = json_encode($arTmp);
+        s($sJson);
+    }
 }//EmpleadosController

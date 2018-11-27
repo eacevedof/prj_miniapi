@@ -27,7 +27,7 @@ foreach($arParams as $sParEqual)
 $_POST["req_params"] = $arReqParams;
 * 
 */
-bugpg();
+//bugpg();
 //llamada y ejecución del controlador
 $arRun = [];
 //busco la url 
