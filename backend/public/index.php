@@ -1,5 +1,9 @@
 <?php
 //index.php
+define("DS",DIRECTORY_SEPARATOR);
+define("TFW_DOCROOT",$_SERVER["DOCUMENT_ROOT"]);
+define("TFW_DOCROOTDS",TFW_DOCROOT.DS);
+
 include_once '../vendor/autoload.php';
 include_once '../vendor/theframework/bootstrap.php';
 
@@ -9,9 +13,22 @@ $sRequestUri = $_SERVER["REQUEST_URI"];
 $arUri = explode("?",$sRequestUri);
 $sUri = $arUri[0];
 $sParams = isset($arUri[1])?$arUri[1]:"";
-$_POST["req_uri"] = $sUri;
-$_POST["req_params"] = $sParams;
 
+/* No hace falta, llega por Get
+ * 
+$_POST["req_uri"] = $sUri;
+$arParams = explode("&",$sParams);
+$arReqParams = [];
+foreach($arParams as $sParEqual)
+{
+    $arTmp = explode("=",$sParEqual);
+    $arReqParams[$arTmp[0]] = isset($arTmp[1])?$arTmp[1]:"";
+}
+$_POST["req_params"] = $arReqParams;
+* 
+*/
+bugpg();
+//llamada y ejecución del controlador
 $arRun = [];
 //busco la url 
 foreach($arRoutes as $arRoute)

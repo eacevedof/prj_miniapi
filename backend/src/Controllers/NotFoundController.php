@@ -13,9 +13,19 @@ class NotFoundController
 {
     public function index()
     {
+        $sPath = realpath(__DIR__."../../Routes/routes.php");
+        $arRutas = include $sPath;
+        s("<pre>");
+        foreach($arRutas as $arRuta)
+        {
+            s("<a href=\"{$arRuta["url"]}\" target=\"_blank\">{$arRuta["url"]}</a><br/>");
+        }
+    }
+
+    public function error_404()
+    {
         $arData = ["data"=>["mensaje"=>"404 resource not found!"]];
         $sJson = json_encode($arData);
         s($sJson);
-    }
-
+    }    
 }//NotFoundController

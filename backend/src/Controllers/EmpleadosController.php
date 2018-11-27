@@ -11,9 +11,22 @@ namespace App\Controllers;
 
 class EmpleadosController 
 {
+    // listado
     public function index()
     {
-        bug("index");
+        bug("empleados.index");
+    }
+    
+    // detalle / ficha del empleado
+    public function profile()
+    {
+        bug("empleados.profile");
+    }
+    
+    // insert
+    public function insert()
+    {
+        bug("empleados.insert");
     }
 
 }//EmpleadosController
