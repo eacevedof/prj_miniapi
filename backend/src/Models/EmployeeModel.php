@@ -13,11 +13,26 @@ use App\Models\AppModel;
 
 class EmployeeModel extends AppModel
 {
+   
     public function __construct() 
     {
+        $this->sTable = "employees";
         parent::__construct();
+        $this->load_fileds();
     }
-        
+    
+    //hace un mapeo de los campos que vienen del formulario y los campos reales en bd
+    public function load_fileds()
+    {
+        $arTmp = [
+            ["db"=>"first_name","ui"=>"firstname"],
+            ["db"=>"last_name","ui"=>"lastname"],
+            ["db"=>"birth_name","ui"=>"birthname"],
+            ["db"=>"gender","ui"=>"gender"]
+        ];
+        $this->arFields = $arTmp;
+    }
+    
     // listado
     public function get_list()
     {
@@ -221,25 +236,6 @@ salario (salaries.salary)
         }
         return [];
     }//get_profile
-    
-    // insert
-    public function insert($arData)
-    {
-/*
-Inserción de un empleado con los siguientes parámetros:
-first_name
-last_name
-birth_name
-gender
-dept_no
-title
-salary
-*/
-        $oCrud = new ComponentCrud($this->oDb);
-        foreach($arData as $sFieldName=>$sValue)
-            $oCrud->add_insert_fv($sFieldName, $sValue);
-        $oCrud->autoinsert();
-        
-    }//insert
+   
 
 }//EmployeeModel

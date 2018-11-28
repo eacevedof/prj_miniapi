@@ -11,6 +11,8 @@ namespace App\Controllers;
 
 use App\Controllers\AppController;
 use App\Models\EmployeeModel;
+use App\Models\DeptEmpModel;
+use \App\Models\TitleModel;
 
 class EmployeesController extends AppController
 {
@@ -34,16 +36,53 @@ class EmployeesController extends AppController
     // insert
     public function insert()
     {
-        $arData = $this->get_post("");
-        $isOk = FALSE;
-        if($arData)
+        //si hay algo en el post
+        /*
+ay(1) {
+  ["POST"]=>
+  array(7) {
+    ["firstname"]=>
+    ["lastname"]=>
+    ["birthdate"]=>
+    ["gender"]=>
+         * 
+    ["deptno"]=>
+         * 
+    ["utitle"]=>
+    ["salary"]=>
+  }
+}
+         *          */
+        if($this->is_post())
         {
-            $oEmpleado = new EmployeeModel();
-            $isOk = $oEmpleado->insert($arData);
+            $arErrors = [];
+            $arPost = $this->get_post();
+            $oEmployee = new EmployeeModel();
+            $oEmployee->insert($arPost);
+            
+            if(!$oEmployee->is_error())
+            {
+                $arPost["emp_no"] = $oEmployee->get_lastinsert_id();
+                $arPost["fromdate"] = date("Y-m-d");
+                $arPost["todate"] = "2100-01-01";
+                
+                $oDeptEmp = new DeptEmpModel();
+                $oDeptEmp->insert($arPost);
+                
+                $oTitle = new TitleModel();
+                $oTitle->insert($arPost);
+                
+            }
+            
+            if($oEmployee->is_error()) $arErrors[] = "employee";
+            
         }
-        if(!$isOk)
-            $this->show_json(["message"=>"503 Error on insert"]);
+            
     }
 
+    private function before_insert()
+    {
+
+    }
 
 }//EmployeesController

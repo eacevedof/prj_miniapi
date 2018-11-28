@@ -19,9 +19,12 @@ class AppController
         s($sJson);
     }
     
-    protected function get_post($sKey)
+    protected function get_post($sKey=NULL)
     {
+        if(!$sKey) return $_POST;
         return (isset($_POST[$sKey])?$_POST[$sKey]:"");
     }
+    
+    protected function is_post(){return count($_POST)>0;}
     
 }//AppController

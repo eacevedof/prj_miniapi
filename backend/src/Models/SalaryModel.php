@@ -2,18 +2,18 @@
 /**
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
- * @name App\Models\TitleModel 
+ * @name App\Models\SalaryModel 
  * @observations
  */
 namespace App\Models;
 
 use App\Models\AppModel;
 
-class TitleModel extends AppModel
+class SalaryModel extends AppModel
 {
     public function __construct() 
     {
-        $this->sTable = "titles";
+        $this->sTable = "salaries";
         parent::__construct();
         $this->load_fileds();
     }
@@ -22,7 +22,7 @@ class TitleModel extends AppModel
     {
         $arTmp = [
             ["db"=>"emp_no","ui"=>"empno"],
-            ["db"=>"title","ui"=>"utitle"],
+            ["db"=>"salary","ui"=>"salary"],
             ["db"=>"from_date","ui"=>"fromdate"],
             ["db"=>"to_date","ui"=>"todate"]
         ];
@@ -33,7 +33,7 @@ class TitleModel extends AppModel
     public function get_picklist()
     {
         $sSQL = "
-        /*TitleModel.get_picklist*/
+        /*SalaryModel.get_picklist*/
         SELECT DISTINCT title,title
         FROM titles
         ORDER BY 2
@@ -42,4 +42,4 @@ class TitleModel extends AppModel
         return $arRows;
     }//get_picklist
     
-}//TitleModel
+}//SalaryModel
