@@ -37,25 +37,10 @@ class EmployeesController extends AppController
     public function insert()
     {
         //si hay algo en el post
-        /*
-ay(1) {
-  ["POST"]=>
-  array(7) {
-    ["firstname"]=>
-    ["lastname"]=>
-    ["birthdate"]=>
-    ["gender"]=>
-         * 
-    ["deptno"]=>
-         * 
-    ["utitle"]=>
-    ["salary"]=>
-  }
-}
-         *          */
         if($this->is_post())
         {
             $arErrors = [];
+            //recupero los datos del form
             $arPost = $this->get_post();
             $oEmployee = new EmployeeModel();
             $oEmployee->insert($arPost);
@@ -72,17 +57,12 @@ ay(1) {
                 $oTitle = new TitleModel();
                 $oTitle->insert($arPost);
                 
+                $oSalary = new \App\Models\SalaryModel();
+                $oSalary->insert($arPost);
             }
             
-            if($oEmployee->is_error()) $arErrors[] = "employee";
-            
-        }
-            
-    }
-
-    private function before_insert()
-    {
-
-    }
+            //if($oEmployee->is_error()) $arErrors[] = "employee";
+        }//if(this->post)
+    }//insert()
 
 }//EmployeesController

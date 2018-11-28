@@ -1,7 +1,6 @@
 ﻿<?php
 namespace TheFramework\Components\Db;
 
-//ComponentCrud 2.0.0 - 28/11/2018
 class ComponentCrud
 {
     private $sSQL;
@@ -14,6 +13,8 @@ class ComponentCrud
     private $arGetFields;
     
     private $oDB;
+    
+    private $isError = FALSE; 
     
     public function __construct($oDB=NULL)
     { 
@@ -64,7 +65,10 @@ class ComponentCrud
                 
                 $this->sSQL = $sSQL;
                 if(is_object($this->oDB))
+                {
                     $this->oDB->exec($this->sSQL);
+                    $this->isError = $this->oDB->is_error();
+                }
             }//si se han proporcionado correctamente los datos campo=>valor
         }//se ha proporcionado una tabla
     }//autoinsert
@@ -513,4 +517,5 @@ class ComponentCrud
         return NULL;
     }//get_nextcode()
     
+    public function is_error(){return $this->isError;}
 }//Crud 2.0.0
