@@ -2,7 +2,7 @@
 /**
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
- * @name App\Controllers\EmpleadosController 
+ * @name App\Controllers\EmployeesController 
  * @file component_mysql.php v1.0.0
  * @date 19-09-2017 04:56 SPAIN
  * @observations
@@ -12,7 +12,7 @@ namespace App\Controllers;
 use App\Controllers\AppController;
 use App\Models\EmployeeModel;
 
-class EmpleadosController extends AppController
+class EmployeesController extends AppController
 {
     // listado
     public function index()
@@ -42,4 +42,4 @@ class EmpleadosController extends AppController
     }
 
 
-}//EmpleadosController
+}//EmployeesController
