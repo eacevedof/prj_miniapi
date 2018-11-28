@@ -1,5 +1,6 @@
 # Mini API REST
->> Repo:
+
+> Repo: https://github.com/eacevedof/prj_miniapi
 
 ## Backend:
 
@@ -32,7 +33,7 @@ php -S localhost:3000 -t backend/public
 - `/employee/insert`: Crear un empleado
 
 ### Live examples
-- http://front.eduardoaf.com/
-- http://front.eduardoaf.com/employees
-- http://front.eduardoaf.com/employee/profile/{emp_no}
-- http://front.eduardoaf.com/employee/insert
+- http://employees.eduardoaf.com/
+- http://employees.eduardoaf.com/employees
+- http://employees.eduardoaf.com/employee/profile/{emp_no}
+- http://employees.eduardoaf.com/employee/insert
