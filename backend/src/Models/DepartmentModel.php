@@ -21,7 +21,7 @@ class DepartmentModel extends AppModel
     {
         $sSQL = "
         /*DepartmentModel.get_picklist*/
-        SELECT dept_no,dept_name
+        SELECT dept_no deptno,dept_name deptname
         FROM departments
         ORDER BY 2,1
         ";
