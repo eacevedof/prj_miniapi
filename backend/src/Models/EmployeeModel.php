@@ -164,7 +164,7 @@ salario (salaries.salary)
             ,t.`title` AS cargo
             ,s.`salary` AS salario
             FROM employees e
-            INNER JOIN 
+            LEFT JOIN 
             (
                 -- cargo empleado por fecha
                 SELECT t.emp_no,t.title

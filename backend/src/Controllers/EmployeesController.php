@@ -30,6 +30,7 @@ class EmployeesController extends AppController
         $id = isset($_GET["id"])?$_GET["id"]:NULL;
         $oEmpleado = new EmployeeModel();
         $arRows = $oEmpleado->get_profile($id);
+        $arRows = isset($arRows[0])?$arRows[0]:[];
         $this->show_json($arRows);        
     }
     
@@ -50,6 +51,7 @@ class EmployeesController extends AppController
             {
                 $arPost["fromdate"] = date("Y-m-d");
                 $arPost["todate"] = "9999-01-01";
+                $arPost["hiredate"] = date("Y-m-d");
                 
                 $oDeptEmp = new DeptEmpModel();
                 $oDeptEmp->insert($arPost);

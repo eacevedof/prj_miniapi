@@ -22,6 +22,7 @@ php -S localhost:3000 -t backend/public
 - http://telecoming.eduardoaf.com/
 - http://telecoming.eduardoaf.com/employees
 - http://telecoming.eduardoaf.com/employees/profile?id={emp_no}
+    - http://telecoming.eduardoaf.com/employees/profile?id=10253
 - http://telecoming.eduardoaf.com/picklists/departments
 - http://telecoming.eduardoaf.com/picklists/titles
 
