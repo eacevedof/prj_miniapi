@@ -93,7 +93,7 @@ class AppModel
     {
         if(!is_string($mxVar))
             $mxVar = var_export($mxVar,1);
-        $oLog = new ComponentLog("models",__DIR__);
+        $oLog = new ComponentLog(NULL,__DIR__);
         $oLog->save($mxVar,$sTitle);
     }
 }//AppModel
