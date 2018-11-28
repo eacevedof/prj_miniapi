@@ -1,5 +1,6 @@
 <?php
-define("ENV","d");
+if(!defined("ENV")) define("ENV","d");
+
 $arConfig = [
     //development
     "d" => [

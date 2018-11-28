@@ -3,7 +3,7 @@
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
  * @name TheApplication\Components\ComponentLog 
- * @file component_log.php 1.0.0
+ * @file component_log.php 1.0.1
  * @date 19-09-2017 04:56 SPAIN
  * @observations
  */
@@ -26,7 +26,7 @@ class ComponentLog
     
     private function merge($sContent,$sTitle)
     {
-        $sReturn = "::".date("Ymd-His")."::\n";
+        $sReturn = "-- ::".date("Ymd-His")."::\n";
         if($sTitle) $sReturn .= $sTitle.":\n";
         if($sContent) $sReturn .= $sContent."\n\n";
         return $sReturn;
