@@ -154,29 +154,82 @@ salario (salaries.salary)
             ,t.`title` AS cargo
             ,s.`salary` AS salario
             FROM employees e
-            LEFT JOIN titles t
-            ON e.`emp_no` = t.`emp_no`
-            LEFT JOIN salaries s
-            ON e.`emp_no` = s.`emp_no`
-            -- AND t.`from_date` = s.`from_date`
             INNER JOIN 
             (
-                -- los departamentos en caso de ser manager 
-                SELECT dept_no,emp_no
-                FROM dept_manager
-                WHERE emp_no=$id
+                -- cargo empleado por fecha
+                SELECT t.emp_no,t.title
+                FROM titles t
+                INNER JOIN 
+                (
+                    -- fecha más actual por empleado
+                    SELECT emp_no,MAX(from_date) from_date
+                    FROM titles
+                    WHERE 1
+                    AND emp_no=$id
+                    GROUP BY emp_no
+                ) tgroup
+                ON t.emp_no = tgroup.emp_no
+                AND t.from_date = tgroup.from_date
+            ) t
+            ON e.`emp_no` = t.`emp_no`
+            LEFT JOIN 
+            (
+                -- slario empleado por fecha
+                SELECT s.emp_no,s.salary
+                FROM salaries s
+                INNER JOIN 
+                (
+                    -- fecha más actual por empleado
+                    SELECT emp_no,MAX(from_date) from_date
+                    FROM salaries 
+                    WHERE 1
+                    AND emp_no=$id                    
+                    GROUP BY emp_no
+                ) tgroup
+                ON s.emp_no = tgroup.emp_no
+                AND s.from_date = tgroup.from_date        
+            ) s
+            ON e.`emp_no` = s.`emp_no`
+            LEFT JOIN 
+            (
+                SELECT m.emp_no,m.dept_no
+                FROM dept_manager m
+                INNER JOIN
+                (
+                    -- los departamentos en caso de ser manager 
+                    SELECT emp_no,MAX(from_date) from_date
+                    FROM dept_manager 
+                    WHERE 1
+                    AND emp_no=$id                    
+                    GROUP BY emp_no
+                )tgroup
+                ON m.emp_no = tgroup.emp_no
+                AND m.from_date = tgroup.from_date
+
                     UNION 
                 -- los departamentos de empleados
-                SELECT dept_no,emp_no
-                FROM dept_emp
-                WHERE emp_no=$id
+                SELECT e.emp_no,e.dept_no
+                FROM dept_emp e
+                INNER JOIN
+                (
+                    -- los departamentos en caso de ser manager 
+                    SELECT emp_no,MAX(from_date) from_date
+                    FROM dept_emp
+                    WHERE 1
+                    AND emp_no=$id                    
+                    GROUP BY emp_no
+                )tgroup
+                ON e.emp_no = tgroup.emp_no
+                AND e.from_date = tgroup.from_date
+
             ) AS dept
             ON e.`emp_no` = dept.emp_no
             INNER JOIN departments d
             ON dept.dept_no = d.`dept_no`
-            WHERE 1
-            AND e.emp_no=$id
+            ORDER BY e.`hire_date` ASC
+            LIMIT 50
             ";
+            
             ComponentDebug::log($sSQL);
             $arRows = $this->oDb->query($sSQL);
             return $arRows;
