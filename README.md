@@ -38,3 +38,13 @@ php -S localhost:3000 -t backend/public
 - http://employees.eduardoaf.com/employees
 - http://employees.eduardoaf.com/employee/profile/{emp_no}
 - http://employees.eduardoaf.com/employee/insert
+
+### Vue.js
+- La aplicación en Vue se encuentra en este repositorio:
+    **https://github.com/eacevedof/prj_vue2_rimor1/tree/master/vuecli-router**
+    Originalmente esta aplicación fue un tutorial de Vue que lo he reciclado para el 
+    frontend de este proyecto.
+    
+- En la carpeta frontend dejaré solo el compilado de producción de Vue.
+
+
