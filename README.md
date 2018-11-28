@@ -2,13 +2,17 @@
 
 > Repo: https://github.com/eacevedof/prj_miniapi
 
-> [Especificaciones:](https://docs.google.com/document/d/1OjpH4HSNwnkJvEKZUx7cf5dCJuQZ15a1gqYmf9lYEq4/edit?usp=sharing)
+> [Especificaciones](https://docs.google.com/document/d/1OjpH4HSNwnkJvEKZUx7cf5dCJuQZ15a1gqYmf9lYEq4/edit?usp=sharing)
 
 ## Backend:
 
 - Lanzar la API con el siguiente comando
 ```
+Esto sirve la api
 php -S localhost:3000 -t backend/public
+
+Esto sirve bootstrap
+php -S localhost:9000 -t frontend
 ```
 
 ### Endpoints
@@ -48,5 +52,6 @@ php -S localhost:3000 -t backend/public
     frontend de este proyecto.
     
 - En la carpeta frontend dejaré solo el compilado de producción de Vue.
-
+- He utilizado composer para apoyarme en su autoload
+- Dentro de vendor vereis una carpeta llamada `theframework`. Esta son clases creadas por mi y no es un framework como tal.
 
