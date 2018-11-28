@@ -25,8 +25,8 @@ class NotFoundController
     public function error_404()
     {
         $arData = ["data"=>["message"=>"404 resource not found!"]];
-        $sJson = json_encode($arData);
         header('Content-Type: application/json');
+        header("Access-Control-Allow-Origin: *");
         s($sJson);
     }    
 }//NotFoundController

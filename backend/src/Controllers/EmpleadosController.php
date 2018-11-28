@@ -9,14 +9,14 @@
  */
 namespace App\Controllers;
 
-use App\Models\EmpleadoModel;
+use App\Models\EmployeeModel;
 
 class EmpleadosController 
 {
     // listado
     public function index()
     {
-        $oEmpleado = new EmpleadoModel();
+        $oEmpleado = new EmployeeModel();
         $arRows = $oEmpleado->get_list();
         $this->show_json($arRows);
     }
@@ -25,7 +25,7 @@ class EmpleadosController
     public function profile()
     {
         $id = isset($_GET["id"])?$_GET["id"]:NULL;
-        $oEmpleado = new EmpleadoModel();
+        $oEmpleado = new EmployeeModel();
         $arRows = $oEmpleado->get_profile($id);
         $this->show_json($arRows);        
     }
@@ -34,7 +34,7 @@ class EmpleadosController
     public function insert()
     {
         $arData = $_POST[""];
-        $oEmpleado = new EmpleadoModel();
+        $oEmpleado = new EmployeeModel();
         $isOk = $oEmpleado->insert($arData);
         if(!$isOk)
             $this->show_json(["message"=>"503 Error"]);

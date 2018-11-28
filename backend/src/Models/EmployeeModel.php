@@ -2,35 +2,20 @@
 /**
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
- * @name App\Models\EmpleadoModel 
+ * @name App\Models\EmployeeModel 
  * @observations
  */
 namespace App\Models;
 
-use TheFramework\Components\ComponentDebug;
-use TheFramework\Components\Db\ComponentMysql;
+use App\Models\AppModel;
 
-class EmpleadoModel 
+class EmployeeModel extends AppModel
 {
-    private $oDb;
-    
     public function __construct() 
     {
-        $arConfig = $this->get_config("db");
-        $oDb = new ComponentMysql();
-        $oDb->add_conn("server",$arConfig["server"]);
-        $oDb->add_conn("database",$arConfig["database"]);
-        $oDb->add_conn("user",$arConfig["user"]);
-        $oDb->add_conn("password",$arConfig["password"]);
-        $this->oDb = $oDb;
+        parent::__construct();
     }
     
-    private function get_config($sKey)
-    {
-        $arConfig = realpath(__DIR__."/../config/config.php");
-        $arConfig = include($arConfig);
-        return $arConfig[$sKey];        
-    }
     
     // listado
     public function get_list()
@@ -46,7 +31,7 @@ departamento (departments.dept_name)
 */       
                
         $sSQL = "
-        /*EmpleadoModel.get_list*/
+        /*EmployeeModel.get_list*/
         SELECT DISTINCT e.`emp_no` AS id
         ,e.`first_name` AS nombre
         ,e.`last_name` AS apellidos
@@ -143,7 +128,7 @@ salario (salaries.salary)
         if(is_numeric($id))
         {
             $sSQL = "
-            /*EmpleadoModel.get_profile*/
+            /*EmployeeModel.get_profile*/
             SELECT DISTINCT e.`emp_no` AS id
             ,e.`first_name` AS nombre
             ,e.`last_name` AS apellidos
@@ -266,4 +251,4 @@ salary
         return FALSE;
     }//insert
 
-}//EmpleadoModel
+}//EmployeeModel
