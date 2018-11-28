@@ -40,10 +40,11 @@ class EmployeesController extends AppController
         //si hay algo en el post
         if($this->is_post())
         {
-            $arErrors = [];
+            //$arErrors = [];
             //recupero los datos del form
             $arPost = $this->get_post();
             $oEmployee = new EmployeeModel();
+            $arPost["hiredate"] = date("Y-m-d");
             $arPost["empno"] = $oEmployee->get_new_empno();
             $oEmployee->insert($arPost);
             
@@ -51,7 +52,6 @@ class EmployeesController extends AppController
             {
                 $arPost["fromdate"] = date("Y-m-d");
                 $arPost["todate"] = "9999-01-01";
-                $arPost["hiredate"] = date("Y-m-d");
                 
                 $oDeptEmp = new DeptEmpModel();
                 $oDeptEmp->insert($arPost);
