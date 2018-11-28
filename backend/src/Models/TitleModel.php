@@ -21,7 +21,7 @@ class TitleModel extends AppModel
     {
         $sSQL = "
         /*TitleModel.get_picklist*/
-        SELECT dept_no,dept_name
+        SELECT DISTINCT title,title
         FROM titles
         ORDER BY 2
         ";
