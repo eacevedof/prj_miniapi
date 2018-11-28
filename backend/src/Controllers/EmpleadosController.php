@@ -44,6 +44,8 @@ class EmpleadosController
     {
         $arTmp["data"] = $arRows; 
         $sJson = json_encode($arTmp);
+        header('Content-Type: application/json');
+        header("Access-Control-Allow-Origin: *");
         s($sJson);
     }
 }//EmpleadosController
