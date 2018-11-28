@@ -7,6 +7,7 @@
  */
 namespace App\Models;
 
+use TheFramework\Components\Db\ComponentCrud;
 use TheFramework\Components\ComponentDebug;
 use App\Models\AppModel;
 
@@ -234,20 +235,11 @@ dept_no
 title
 salary
 */
-        if($arData && is_array($arData))
-        {
-            $arFields = array_keys($arData);
-            $arValues = array_values($arData);
-            $sFields = implode(",",$arFields);
-            $sValues = implode("','",$arValues);
-
-            $sSQL = "INSERT INTO ($sFields) VALUES ('$sValues')";
-            $this->oDb->exec($sSQL);
-            if($this->oDb->is_error())
-                return FALSE;
-            return TRUE;
-        }
-        return FALSE;
+        $oCrud = new ComponentCrud($this->oDb);
+        foreach($arData as $sFieldName=>$sValue)
+            $oCrud->add_insert_fv($sFieldName, $sValue);
+        $oCrud->autoinsert();
+        
     }//insert
 
 }//EmployeeModel
