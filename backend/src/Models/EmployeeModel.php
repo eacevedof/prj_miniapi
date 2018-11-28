@@ -7,6 +7,7 @@
  */
 namespace App\Models;
 
+use TheFramework\Components\ComponentDebug;
 use App\Models\AppModel;
 
 class EmployeeModel extends AppModel

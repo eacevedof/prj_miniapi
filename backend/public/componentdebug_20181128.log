@@ -1,5 +1,5 @@
 
-            /*EmpleadoModel.get_profile*/
+            /*EmployeeModel.get_profile*/
             SELECT DISTINCT e.`emp_no` AS id
             ,e.`first_name` AS nombre
             ,e.`last_name` AS apellidos
@@ -21,7 +21,7 @@
                     SELECT emp_no,MAX(from_date) from_date
                     FROM titles
                     WHERE 1
-                    AND emp_no=10975
+                    AND emp_no=123
                     GROUP BY emp_no
                 ) tgroup
                 ON t.emp_no = tgroup.emp_no
@@ -39,7 +39,7 @@
                     SELECT emp_no,MAX(from_date) from_date
                     FROM salaries 
                     WHERE 1
-                    AND emp_no=10975                    
+                    AND emp_no=123                    
                     GROUP BY emp_no
                 ) tgroup
                 ON s.emp_no = tgroup.emp_no
@@ -56,7 +56,7 @@
                     SELECT emp_no,MAX(from_date) from_date
                     FROM dept_manager 
                     WHERE 1
-                    AND emp_no=10975                    
+                    AND emp_no=123                    
                     GROUP BY emp_no
                 )tgroup
                 ON m.emp_no = tgroup.emp_no
@@ -72,7 +72,7 @@
                     SELECT emp_no,MAX(from_date) from_date
                     FROM dept_emp
                     WHERE 1
-                    AND emp_no=10975                    
+                    AND emp_no=123                    
                     GROUP BY emp_no
                 )tgroup
                 ON e.emp_no = tgroup.emp_no
