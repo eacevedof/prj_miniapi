@@ -7,8 +7,6 @@
  */
 namespace App\Models;
 
-use TheFramework\Components\Db\ComponentCrud;
-use TheFramework\Components\ComponentDebug;
 use App\Models\AppModel;
 
 class EmployeeModel extends AppModel
@@ -133,6 +131,7 @@ departamento (departments.dept_name)
         ORDER BY e.`hire_date` ASC
         LIMIT 50
         ";
+        $this->log($sSQL,"EmployeeModel");
         $arRows = $this->oDb->query($sSQL);
         return $arRows;
     }//get_list
@@ -240,8 +239,7 @@ salario (salaries.salary)
             ORDER BY e.`hire_date` ASC
             LIMIT 50
             ";
-            
-            ComponentDebug::log($sSQL);
+            $this->log($sSQL,"EmployeeModel");
             $arRows = $this->oDb->query($sSQL);
             return $arRows;
         }
