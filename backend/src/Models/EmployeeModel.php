@@ -16,8 +16,7 @@ class EmployeeModel extends AppModel
     {
         parent::__construct();
     }
-    
-    
+        
     // listado
     public function get_list()
     {
@@ -30,7 +29,6 @@ cargo (titles.title)
 salario (salaries.salary)
 departamento (departments.dept_name)
 */       
-               
         $sSQL = "
         /*EmployeeModel.get_list*/
         SELECT DISTINCT e.`emp_no` AS id
