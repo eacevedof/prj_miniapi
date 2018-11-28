@@ -27,7 +27,7 @@ class EmpleadoModel
     
     private function get_config($sKey)
     {
-        $arConfig = realpath(__DIR__."../../config/config.php");
+        $arConfig = realpath(__DIR__."/../config/config.php");
         $arConfig = include($arConfig);
         return $arConfig[$sKey];        
     }
