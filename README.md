@@ -15,6 +15,8 @@ Esto sirve bootstrap
 php -S localhost:9000 -t frontend
 ```
 
+- En este fichero `prj_miniapi\backend\src\config\config.php` se configura la base de datos.
+
 ### Endpoints
 
 - `/`: Links con endpoints
