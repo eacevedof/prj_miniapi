@@ -15,10 +15,9 @@ class AppController
     {
         $arTmp["data"] = $arRows; 
         $sJson = json_encode($arTmp);
-        header('Content-Type: application/json');
-        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
         s($sJson);
-    }    
+    }
     
     protected function get_post($sKey)
     {
