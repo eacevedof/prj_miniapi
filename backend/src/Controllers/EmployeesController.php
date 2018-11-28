@@ -59,6 +59,8 @@ class EmployeesController extends AppController
                 
                 $oSalary = new \App\Models\SalaryModel();
                 $oSalary->insert($arPost);
+                
+                $this->show_json(["id"=>$arPost["empno"]]);
             }
             
             //if($oEmployee->is_error()) $arErrors[] = "employee";
