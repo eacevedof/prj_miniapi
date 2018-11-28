@@ -34,11 +34,15 @@ class EmployeesController extends AppController
     // insert
     public function insert()
     {
-        $arData = $_POST[""];
-        $oEmpleado = new EmployeeModel();
-        $isOk = $oEmpleado->insert($arData);
+        $arData = $this->get_post("");
+        $isOk = FALSE;
+        if($arData)
+        {
+            $oEmpleado = new EmployeeModel();
+            $isOk = $oEmpleado->insert($arData);
+        }
         if(!$isOk)
-            $this->show_json(["message"=>"503 Error"]);
+            $this->show_json(["message"=>"503 Error on insert"]);
     }
 
 
