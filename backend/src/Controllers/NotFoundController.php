@@ -13,7 +13,7 @@ class NotFoundController
 {
     public function index()
     {
-        $sPath = realpath(__DIR__."../../Routes/routes.php");
+        $sPath = realpath(__DIR__."../../routes/routes.php");
         $arRutas = include $sPath;
         s("<pre>");
         foreach($arRutas as $arRuta)

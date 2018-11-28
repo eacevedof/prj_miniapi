@@ -16,12 +16,20 @@ class EmpleadoModel
     
     public function __construct() 
     {
+        $arConfig = $this->get_config("db");
         $oDb = new ComponentMysql();
-        $oDb->add_conn("server","localhost");
-        $oDb->add_conn("database","employees");
-        $oDb->add_conn("user","root");
-        $oDb->add_conn("password","");
+        $oDb->add_conn("server",$arConfig["server"]);
+        $oDb->add_conn("database",$arConfig["database"]);
+        $oDb->add_conn("user",$arConfig["user"]);
+        $oDb->add_conn("password",$arConfig["password"]);
         $this->oDb = $oDb;
+    }
+    
+    private function get_config($sKey)
+    {
+        $arConfig = realpath(__DIR__."../../config/config.php");
+        $arConfig = include($arConfig);
+        return $arConfig[$sKey];        
     }
     
     // listado

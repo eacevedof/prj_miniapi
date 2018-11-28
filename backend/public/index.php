@@ -7,7 +7,7 @@ define("TFW_DOCROOTDS",TFW_DOCROOT.DS);
 include_once '../vendor/autoload.php';
 include_once '../vendor/theframework/bootstrap.php';
 
-$arRoutes = include_once '../src/Routes/routes.php';
+$arRoutes = include_once '../src/routes/routes.php';
 
 $sRequestUri = $_SERVER["REQUEST_URI"];
 $arUri = explode("?",$sRequestUri);
