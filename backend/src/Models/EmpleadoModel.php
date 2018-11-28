@@ -55,20 +55,66 @@ departamento (departments.dept_name)
         ,s.`salary` AS salario
         ,d.`dept_name` AS departamento
         FROM employees e
-	LEFT JOIN titles t
-	ON e.`emp_no` = t.`emp_no`
-        LEFT JOIN salaries s
-        ON e.`emp_no` = s.`emp_no`
-        -- AND t.`from_date` = s.`from_date`
-        INNER JOIN 
+	LEFT JOIN 
         (
-            -- los departamentos en caso de ser manager 
-            SELECT dept_no,emp_no
-            FROM dept_manager
+            -- cargo empleado por fecha
+            SELECT t.emp_no,t.title
+            FROM titles t
+            INNER JOIN 
+            (
+                -- fecha más actual por empleado
+                SELECT emp_no,MAX(from_date) from_date
+                FROM titles 
+                GROUP BY emp_no
+            ) tgroup
+            ON t.emp_no = tgroup.emp_no
+            AND t.from_date = tgroup.from_date
+        ) t
+	ON e.`emp_no` = t.`emp_no`
+        LEFT JOIN 
+        (
+	    -- slario empleado por fecha
+            SELECT s.emp_no,s.salary
+            FROM salaries s
+            INNER JOIN 
+            (
+                -- fecha más actual por empleado
+                SELECT emp_no,MAX(from_date) from_date
+                FROM salaries 
+                GROUP BY emp_no
+            ) tgroup
+            ON s.emp_no = tgroup.emp_no
+            AND s.from_date = tgroup.from_date        
+        ) s
+        ON e.`emp_no` = s.`emp_no`
+        LEFT JOIN 
+        (
+            SELECT m.emp_no,m.dept_no
+            FROM dept_manager m
+            INNER JOIN
+            (
+                -- los departamentos en caso de ser manager 
+                SELECT emp_no,MAX(from_date) from_date
+                FROM dept_manager 
+                GROUP BY emp_no
+            )tgroup
+            ON m.emp_no = tgroup.emp_no
+            AND m.from_date = tgroup.from_date
+            
                 UNION 
             -- los departamentos de empleados
-            SELECT dept_no,emp_no
-            FROM dept_emp
+            SELECT e.emp_no,e.dept_no
+            FROM dept_emp e
+            INNER JOIN
+            (
+                -- los departamentos en caso de ser manager 
+                SELECT emp_no,MAX(from_date) from_date
+                FROM dept_emp
+                GROUP BY emp_no
+            )tgroup
+            ON e.emp_no = tgroup.emp_no
+            AND e.from_date = tgroup.from_date
+            
         ) AS dept
         ON e.`emp_no` = dept.emp_no
         INNER JOIN departments d
