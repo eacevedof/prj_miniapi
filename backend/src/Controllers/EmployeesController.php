@@ -43,13 +43,13 @@ class EmployeesController extends AppController
             //recupero los datos del form
             $arPost = $this->get_post();
             $oEmployee = new EmployeeModel();
+            $arPost["empno"] = $oEmployee->get_new_empno();
             $oEmployee->insert($arPost);
             
             if(!$oEmployee->is_error())
             {
-                $arPost["emp_no"] = $oEmployee->get_lastinsert_id();
                 $arPost["fromdate"] = date("Y-m-d");
-                $arPost["todate"] = "2100-01-01";
+                $arPost["todate"] = "9999-01-01";
                 
                 $oDeptEmp = new DeptEmpModel();
                 $oDeptEmp->insert($arPost);

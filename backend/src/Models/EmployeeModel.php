@@ -25,13 +25,24 @@ class EmployeeModel extends AppModel
     public function load_fileds()
     {
         $arTmp = [
+            ["db"=>"emp_no","ui"=>"empno"],
             ["db"=>"first_name","ui"=>"firstname"],
             ["db"=>"last_name","ui"=>"lastname"],
             ["db"=>"birth_name","ui"=>"birthname"],
+            ["db"=>"hire_date","ui"=>"hiredate"],
             ["db"=>"gender","ui"=>"gender"]
         ];
         $this->arFields = $arTmp;
     }
+    
+    public function get_new_empno()
+    {
+        $sSQL = "
+        /*EmployeeModel.get_maxcode*/
+        SELECT MAX(emp_no)+1 AS empno FROM employees";
+        $arRow = $this->oDb->query($sSQL);
+        return $arRow[0]["empno"];
+    }//get_newcode
     
     // listado
     public function get_list()

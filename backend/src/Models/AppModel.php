@@ -9,6 +9,7 @@ namespace App\Models;
 
 use TheFramework\Components\Db\ComponentMysql;
 use TheFramework\Components\Db\ComponentCrud;
+use TheFramework\Components\ComponentLog;
 
 class AppModel 
 {
@@ -73,6 +74,7 @@ class AppModel
             foreach($arData as $sFieldName=>$sValue)
                 $oCrud->add_insert_fv($sFieldName, $sValue);
             $oCrud->autoinsert();
+            $this->log($oCrud->get_sql());
             if($oCrud->is_error())
                 $this->add_error("An error occurred while trying to save");
         }
@@ -87,4 +89,11 @@ class AppModel
     public function is_error(){return $this->isError;}
     public function get_errros(){$this->arErrors;}
     
+    public function log($mxVar,$sTitle=NULL)
+    {
+        if(!is_string($mxVar))
+            $mxVar = var_export($mxVar,1);
+        $oLog = new ComponentLog("models",__DIR__);
+        $oLog->save($mxVar,$sTitle);
+    }
 }//AppModel
