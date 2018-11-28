@@ -9,7 +9,9 @@
  */
 namespace App\Controllers;
 
-class NotFoundController
+use App\Controllers\AppController;
+
+class NotFoundController extends AppController
 {
     public function index()
     {
@@ -24,9 +26,7 @@ class NotFoundController
 
     public function error_404()
     {
-        $arData = ["data"=>["message"=>"404 resource not found!"]];
-        header('Content-Type: application/json');
-        header("Access-Control-Allow-Origin: *");
-        s($sJson);
+        $this->show_json(["message"=>"404 resource not found!"]);
     }    
+
 }//NotFoundController

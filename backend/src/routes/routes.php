@@ -16,6 +16,12 @@ Ordenado por fecha de contratación y limitado a 50
 //Inserción de un empleado con los siguientes parámetros: 
     ["url"=>"/empleados/insert","controller"=>"App\Controllers\EmpleadosController","method"=>"insert"],
     ["url"=>"/empleados/insert/","controller"=>"App\Controllers\EmpleadosController","method"=>"insert"],
+//para cargar selects
+    ["url"=>"/picklists/departments","controller"=>"App\Controllers\PicklistController","method"=>"departments"],
+    ["url"=>"/picklists/departments/","controller"=>"App\Controllers\PicklistController","method"=>"departments"],
+    ["url"=>"/picklists/titles","controller"=>"App\Controllers\PicklistController","method"=>"titles"],
+    ["url"=>"/picklists/titles/","controller"=>"App\Controllers\PicklistController","method"=>"titles"],
+
 //resto de rutas
     ["url"=>"/404","controller"=>"App\Controllers\NotFoundController","method"=>"error_404"]
 ];

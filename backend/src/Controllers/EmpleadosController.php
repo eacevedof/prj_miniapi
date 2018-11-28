@@ -9,9 +9,10 @@
  */
 namespace App\Controllers;
 
+use App\Controllers\AppController;
 use App\Models\EmployeeModel;
 
-class EmpleadosController 
+class EmpleadosController extends AppController
 {
     // listado
     public function index()
@@ -40,12 +41,5 @@ class EmpleadosController
             $this->show_json(["message"=>"503 Error"]);
     }
 
-    private function show_json($arRows)
-    {
-        $arTmp["data"] = $arRows; 
-        $sJson = json_encode($arTmp);
-        header('Content-Type: application/json');
-        header("Access-Control-Allow-Origin: *");
-        s($sJson);
-    }
+
 }//EmpleadosController

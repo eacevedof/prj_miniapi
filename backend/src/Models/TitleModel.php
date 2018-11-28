@@ -20,9 +20,9 @@ class TitleModel extends AppModel
     public function get_picklist()
     {
         $sSQL = "
-        /*DepartmentModel.get_picklist*/
+        /*TitleModel.get_picklist*/
         SELECT dept_no,dept_name
-        FROM departments
+        FROM titles
         ORDER BY 2
         ";
         $arRows = $this->oDb->query($sSQL);
