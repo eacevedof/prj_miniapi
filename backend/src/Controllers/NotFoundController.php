@@ -24,7 +24,7 @@ class NotFoundController
 
     public function error_404()
     {
-        $arData = ["data"=>["mensaje"=>"404 resource not found!"]];
+        $arData = ["data"=>["message"=>"404 resource not found!"]];
         $sJson = json_encode($arData);
         s($sJson);
     }    

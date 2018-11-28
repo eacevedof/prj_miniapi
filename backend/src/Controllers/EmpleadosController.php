@@ -24,13 +24,20 @@ class EmpleadosController
     // detalle / ficha del empleado
     public function profile()
     {
-        bug("empleados.profile");
+        $id = isset($_GET["id"])?$_GET["id"]:NULL;
+        $oEmpleado = new EmpleadoModel();
+        $arRows = $oEmpleado->get_profile($id);
+        $this->show_json($arRows);        
     }
     
     // insert
     public function insert()
     {
-        bug("empleados.insert");
+        $arData = $_POST[""];
+        $oEmpleado = new EmpleadoModel();
+        $isOk = $oEmpleado->insert($arData);
+        if(!$isOk)
+            $this->show_json(["message"=>"503 Error"]);
     }
 
     private function show_json($arRows)
