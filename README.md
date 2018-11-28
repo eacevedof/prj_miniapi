@@ -53,5 +53,5 @@ php -S localhost:9000 -t frontend
     
 - En la carpeta frontend dejaré solo el compilado de producción de Vue.
 - He utilizado composer para apoyarme en su autoload
-- Dentro de vendor vereis una carpeta llamada `theframework`. Esta son clases creadas por mi y no es un framework como tal.
+- Dentro de vendor vereis una carpeta llamada `theframework`. Esta aloja clases creadas por mi y no es un framework como tal.
 
