@@ -279,7 +279,7 @@ salario (salaries.salary)
         $iPerPage = $this->iPerPage;
         $iTotRegs = $this->get_total_regs();
         //las paginas completas, es decir con 50 regs
-        $iFullPages = $iTotRegs / $iPerPage;
+        $iFullPages = ceil($iTotRegs/$iPerPage)-1;
         $iHalfPages = $iTotRegs%$iPerPage;
         if($iHalfPages>0) $iFullPages++;
 
