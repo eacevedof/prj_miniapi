@@ -29,6 +29,8 @@ php -S localhost:9000 -t frontend
 ### Live examples
 - http://telecoming.eduardoaf.com/
 - http://telecoming.eduardoaf.com/employees
+- http://telecoming.eduardoaf.com/employees?page={npage}
+    - http://telecoming.eduardoaf.com/employees?page=5
 - http://telecoming.eduardoaf.com/employees/profile?id={emp_no}
     - http://telecoming.eduardoaf.com/employees/profile?id=10253
 - http://telecoming.eduardoaf.com/picklists/departments
