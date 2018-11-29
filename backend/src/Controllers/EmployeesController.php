@@ -12,7 +12,7 @@ namespace App\Controllers;
 use App\Controllers\AppController;
 use App\Models\EmployeeModel;
 use App\Models\DeptEmpModel;
-use \App\Models\TitleModel;
+use App\Models\TitleModel;
 
 class EmployeesController extends AppController
 {

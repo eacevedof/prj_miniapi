@@ -1,4 +1,5 @@
 <?php
+//routes.php
 //mapeo de rutas y controladores
 
 return [   
