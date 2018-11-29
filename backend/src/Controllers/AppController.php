@@ -14,9 +14,12 @@ class AppController
     /**
      * Por convención hay que devolver un json con la clave data
      */
-    protected function show_json($arRows)
+    protected function show_json($arRows, $inData=1)
     {
-        $arTmp["data"] = $arRows; 
+        $arTmp = $arRows;
+        if($inData)
+            $arTmp["data"] = $arRows;
+        
         $sJson = json_encode($arTmp);
         header("Content-Type: application/json");
         s($sJson);

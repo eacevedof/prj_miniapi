@@ -228,7 +228,6 @@ salario (salaries.salary)
 
     }//load_queries
 
-    
     public function get_new_empno()
     {
         $sSQL = "
@@ -248,11 +247,13 @@ salario (salaries.salary)
     // listado
     public function get_list()
     {
+        $iPage = ($this->iPage-1);
+        $iFrom = $iPage*$this->iPerPage;
+        
         $sSQL = $this->arQueries["get_list"];
         $sSQL .= "
         ORDER BY e.`hire_date` ASC
-        -- limit {limitstart}{numitems}
-        LIMIT $this->iPage,$this->iPerPage
+        LIMIT $iFrom,$this->iPerPage
         ";
         $this->log($sSQL,"-- EmployeeModel.get_list");
         $arRows = $this->oDb->query($sSQL);
@@ -282,6 +283,7 @@ salario (salaries.salary)
         $iHalfPages = $iTotRegs%$iPerPage;
         if($iHalfPages>0) $iFullPages++;
 
+        $arPages["currpage"] = $this->iPage;
         $arPages["totpages"] = $iFullPages;
         $arPages["perpage"] = $iHalfPages;
         $arPages["totregs"] = $iTotRegs;

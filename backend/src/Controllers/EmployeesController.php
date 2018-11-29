@@ -30,7 +30,8 @@ class EmployeesController extends AppController
         $oEmpleado->set_perpage(50);
         $oEmpleado->set_page($iPage);
         $arRows = $oEmpleado->get_list();
-        $this->show_json($arRows);
+        $arPage = $oEmpleado->get_pagination();
+        $this->show_json(["data"=>$arRows,"pagination"=>$arPage],0);
     }
     
     /**

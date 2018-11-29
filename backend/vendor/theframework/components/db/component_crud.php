@@ -441,13 +441,13 @@ class ComponentCrud
     public function set_comment($sComment){$this->sSQLComment = $sComment;}
     
     public function set_insert_fv($arFieldVal=array()){$this->arInsertFV = array(); if(is_array($arFieldVal)) $this->arInsertFV=$arFieldVal;}
-    public function add_insert_fv($sFieldName,$sValue,$isSanit=0){$this->arInsertFV[$sFieldName]=($isSanit)?$this->get_sanitized($sValue):$sValue;}
+    public function add_insert_fv($sFieldName,$sValue,$isSanit=1){$this->arInsertFV[$sFieldName]=($isSanit)?$this->get_sanitized($sValue):$sValue;}
 
     public function set_pks_fv($arFieldVal=array()){$this->arPksFV = array(); if(is_array($arFieldVal)) $this->arPksFV=$arFieldVal;}
-    public function add_pk_fv($sFieldName,$sValue,$isSanit=0){$this->arPksFV[$sFieldName]=($isSanit)?$this->get_sanitized($sValue):$sValue;}
+    public function add_pk_fv($sFieldName,$sValue,$isSanit=1){$this->arPksFV[$sFieldName]=($isSanit)?$this->get_sanitized($sValue):$sValue;}
     
     public function set_update_fv($arFieldVal=array()){$this->arUpdateFV = array(); if(is_array($arFieldVal)) $this->arUpdateFV=$arFieldVal;}
-    public function add_update_fv($sFieldName,$sValue,$isSanit=0){$this->arUpdateFV[$sFieldName]=($isSanit)?$this->get_sanitized($sValue):$sValue;}
+    public function add_update_fv($sFieldName,$sValue,$isSanit=1){$this->arUpdateFV[$sFieldName]=($isSanit)?$this->get_sanitized($sValue):$sValue;}
     
     public function set_getfields($arFields=array()){$this->arGetFields = array(); if(is_array($arFields)) $this->arGetFields=$arFields;}
     public function add_getfield($sFieldName){$this->arGetFields[]=$sFieldName;}

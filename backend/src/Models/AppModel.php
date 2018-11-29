@@ -74,7 +74,7 @@ class AppModel
             $oCrud = new ComponentCrud($this->oDb);
             $oCrud->set_table($this->sTable);
             foreach($arData as $sFieldName=>$sValue)
-                $oCrud->add_insert_fv($sFieldName, $sValue);
+                $oCrud->add_insert_fv($sFieldName,$sValue);
             $oCrud->autoinsert();
             $this->log($oCrud->get_sql());
             if($oCrud->is_error())
