@@ -3,8 +3,8 @@
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
  * @name App\Controllers\EmployeesController 
- * @file component_mysql.php v1.0.0
- * @date 19-09-2017 04:56 SPAIN
+ * @file EmployeesController.php v1.0.0
+ * @date 29-11-2018 19:00 SPAIN
  * @observations
  */
 namespace App\Controllers;
@@ -16,25 +16,38 @@ use \App\Models\TitleModel;
 
 class EmployeesController extends AppController
 {
-    // listado
+    /**
+     * ruta:    <dominio>/employees
+     *          <dominio>/employees?page={n}
+     * listado de empleados
+     */
     public function index()
     {
+        $iPage = $this->get_get("page");
+        if(!$iPage) $iPage=1;
+
         $oEmpleado = new EmployeeModel();
+        $oEmpleado->set_perpage(50);
+        $oEmpleado->set_page($iPage);
         $arRows = $oEmpleado->get_list();
         $this->show_json($arRows);
     }
     
-    // detalle / ficha del empleado
+    /**
+     * ruta: <dominio>/employees/profile?id={emp_no}
+     */
     public function profile()
     {
-        $id = isset($_GET["id"])?$_GET["id"]:NULL;
+        $id = $this->get_get("id");
         $oEmpleado = new EmployeeModel();
         $arRows = $oEmpleado->get_profile($id);
         $arRows = isset($arRows[0])?$arRows[0]:[];
         $this->show_json($arRows);        
     }
     
-    // insert
+    /**
+     * ruta: <dominio>/employees/insert
+     */
     public function insert()
     {
         //si hay algo en el post
@@ -64,7 +77,7 @@ class EmployeesController extends AppController
                 
                 $this->show_json(["id"=>$arPost["empno"]]);
             }
-            
+
             //if($oEmployee->is_error()) $arErrors[] = "employee";
         }//if(this->post)
     }//insert()

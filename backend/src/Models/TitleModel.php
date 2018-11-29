@@ -3,6 +3,8 @@
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
  * @name App\Models\TitleModel 
+ * @file TitleModel.php v1.0.0
+ * @date 29-11-2018 19:00 SPAIN
  * @observations
  */
 namespace App\Models;

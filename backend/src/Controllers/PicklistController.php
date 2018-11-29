@@ -3,8 +3,8 @@
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
  * @name App\Controllers\PicklistController 
- * @file component_mysql.php v1.0.0
- * @date 19-09-2017 04:56 SPAIN
+ * @file PicklistController.php v1.0.0
+ * @date 29-11-2018 19:00 SPAIN
  * @observations
  */
 namespace App\Controllers;

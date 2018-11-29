@@ -1,7 +1,8 @@
 <?php
-//index.php
+//index.php 1.0.0
 
-//https://stackoverflow.com/questions/14467673/enable-cors-in-htaccess
+//Código de configuración de cabeceras que permiten consumir la API desde cualquier origen
+//fuente: https://stackoverflow.com/questions/14467673/enable-cors-in-htaccess
 // Allow from any origin
 if(isset($_SERVER["HTTP_ORIGIN"])) 
 {
@@ -26,16 +27,17 @@ define("DS",DIRECTORY_SEPARATOR);
 define("TFW_DOCROOT",$_SERVER["DOCUMENT_ROOT"]);
 define("TFW_DOCROOTDS",TFW_DOCROOT.DS);
 
+//autoload de composer
 include_once '../vendor/autoload.php';
+//arranque de mis utilidades
 include_once '../vendor/theframework/bootstrap.php';
-
+//rutas, mapeo de url->controlador.metodo()
 $arRoutes = include_once '../src/routes/routes.php';
 $sRequestUri = $_SERVER["REQUEST_URI"];
 $arUri = explode("?",$sRequestUri);
 $sUri = $arUri[0];
 
-
-//llamada y ejecución del controlador
+//aqui se guardará los datos de controlador y método a ejecutar
 $arRun = [];
 //busco la url 
 foreach($arRoutes as $arRoute)
@@ -48,8 +50,13 @@ foreach($arRoutes as $arRoute)
     }
 }
 
-//el 404
+//si no se ha encontrado una url en las rutas se asigna la última
+//que está asociada a la ruta 404
 if(!$arRun) $arRun = $arRoute;
-    
+//limpio las rutas
+unset($arRoutes);
+
+//con el controlador devuelto en $arRun lo instancio
 $oController = new $arRun["controller"]();
+//ejecuto el método asociado
 $oController->{$arRun["method"]}();

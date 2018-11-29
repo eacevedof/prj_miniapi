@@ -1,8 +1,9 @@
 <?php
+//config.php
 if(!defined("ENV")) define("ENV","d");
 
 $arConfig = [
-    //development
+    //d: development
     "d" => [
         "db"=>[
             "server"=>"localhost",
@@ -11,7 +12,7 @@ $arConfig = [
             "password"=>""
         ]
     ],
-    //production
+    //p: production
     "p" => [
         "db"=>[
             "server"=>"localhost",

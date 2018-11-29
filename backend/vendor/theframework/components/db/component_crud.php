@@ -3,8 +3,8 @@
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
  * @name TheFramework\Components\Db\ComponentCrud 
- * @file component_crud.php v2.0.0
- * @date 19-09-2017 04:56 SPAIN
+ * @file component_crud.php 2.1.0
+ * @date 29-11-2018 04:56 SPAIN
  * @observations
  */
 namespace TheFramework\Components\Db;
@@ -441,13 +441,13 @@ class ComponentCrud
     public function set_comment($sComment){$this->sSQLComment = $sComment;}
     
     public function set_insert_fv($arFieldVal=array()){$this->arInsertFV = array(); if(is_array($arFieldVal)) $this->arInsertFV=$arFieldVal;}
-    public function add_insert_fv($sFieldName,$sValue){$this->arInsertFV[$sFieldName]=$sValue;}
+    public function add_insert_fv($sFieldName,$sValue,$isSanit=0){$this->arInsertFV[$sFieldName]=($isSanit)?$this->get_sanitized($sValue):$sValue;}
 
     public function set_pks_fv($arFieldVal=array()){$this->arPksFV = array(); if(is_array($arFieldVal)) $this->arPksFV=$arFieldVal;}
-    public function add_pk_fv($sFieldName,$sValue){$this->arPksFV[$sFieldName]=$sValue;}
+    public function add_pk_fv($sFieldName,$sValue,$isSanit=0){$this->arPksFV[$sFieldName]=($isSanit)?$this->get_sanitized($sValue):$sValue;}
     
     public function set_update_fv($arFieldVal=array()){$this->arUpdateFV = array(); if(is_array($arFieldVal)) $this->arUpdateFV=$arFieldVal;}
-    public function add_update_fv($sFieldName,$sValue){$this->arUpdateFV[$sFieldName]=$sValue;}
+    public function add_update_fv($sFieldName,$sValue,$isSanit=0){$this->arUpdateFV[$sFieldName]=($isSanit)?$this->get_sanitized($sValue):$sValue;}
     
     public function set_getfields($arFields=array()){$this->arGetFields = array(); if(is_array($arFields)) $this->arGetFields=$arFields;}
     public function add_getfield($sFieldName){$this->arGetFields[]=$sFieldName;}
@@ -527,4 +527,13 @@ class ComponentCrud
     }//get_nextcode()
     
     public function is_error(){return $this->isError;}
-}//Crud 2.0.0
+
+    private function get_sanitized($sValue)
+    {
+        $sFixed = str_replace("'","\'",$sValue);
+        $sFixed = str_replace("%","\%",$sFixed);
+        $sFixed = str_replace("_","\_",$sFixed);
+        return $sFixed;
+    }//get_sanitized
+
+}//Crud 2.1.0
