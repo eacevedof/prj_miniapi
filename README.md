@@ -11,7 +11,7 @@
 Esto sirve la api
 php -S localhost:3000 -t backend/public
 
-Esto sirve bootstrap
+Esto sirve bootstrap (con vue.js)
 php -S localhost:9000 -t frontend
 ```
 
@@ -64,5 +64,6 @@ php -S localhost:9000 -t frontend
     
 - En la carpeta frontend dejaré solo el compilado de producción de Vue.
 - He utilizado composer para apoyarme en su autoload
+- He instalado Phpunit con el fin de configurar pruebas (sin terminar)
 - Dentro de vendor vereis una carpeta llamada `theframework`. Esta aloja clases creadas por mi y no es un framework como tal.
 
