@@ -31,6 +31,10 @@ php -S localhost:9000 -t frontend
 - http://telecoming.eduardoaf.com/employees
 - http://telecoming.eduardoaf.com/employees?page={npage}
     - http://telecoming.eduardoaf.com/employees?page=5
+    - <img src="https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5c00dcb10fef127436125407/b8322df5b69d543942c49c9da2b11c86/image.png" width="100" height="100">
+- http://telecoming.eduardoaf.com/employees/insert
+    - <img src="https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5c00dcb10fef127436125407/bf573d001978cfcff12dcd65c3297aef/image.png" width="100" height="100">
+
 - http://telecoming.eduardoaf.com/employees/profile?id={emp_no}
     - http://telecoming.eduardoaf.com/employees/profile?id=10253
 - http://telecoming.eduardoaf.com/picklists/departments

@@ -59,14 +59,14 @@ class EmployeesController extends AppController
             //recupero los datos del form
             $arPost = $this->get_post();
             $oEmployee = new EmployeeModel();
-            $arPost["hiredate"] = date("Y-m-d");
-            $arPost["empno"] = $oEmployee->get_new_empno();
+            if(!isset($arPost["hiredate"]))$arPost["hiredate"] = date("Y-m-d");
+            if(!isset($arPost["empno"]))$arPost["empno"] = $oEmployee->get_new_empno();
             $oEmployee->insert($arPost);
             
             if(!$oEmployee->is_error())
             {
-                $arPost["fromdate"] = $arPost["hiredate"];
-                $arPost["todate"] = "9999-01-01";
+                if(!isset($arPost["fromdate"]))$arPost["fromdate"] = $arPost["hiredate"];
+                if(!isset($arPost["todate"]))$arPost["todate"] = "9999-01-01";
                 
                 $oDeptEmp = new DeptEmpModel();
                 $oDeptEmp->insert($arPost);
