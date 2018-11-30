@@ -39,6 +39,9 @@ php -S localhost:9000 -t frontend
 <hr/>
 
 ## Frontend:
+
+- En este fichero `prj_miniapi\frontend\static\config.json` se configura el dominio de la API. 
+
 - `/`: listado de empleados
 - `/employee/profile/{emp_no}`: Perfil del empleado
 - `/employee/insert`: Crear un empleado
