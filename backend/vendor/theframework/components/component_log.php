@@ -3,7 +3,7 @@
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
  * @name TheApplication\Components\ComponentLog 
- * @file ComponentLog.php 1.1.0
+ * @file ComponentLog.php 1.2.0
  * @date 30-11-2017 19:26 SPAIN
  * @observations
  */
@@ -19,11 +19,12 @@ class ComponentLog
         
     public function __construct($sSubfType="",$sPathFolder="") 
     {
+        $this->sPathFolder = $sPathFolder; 
         $this->sSubfType = $sSubfType;        
-        $this->sPathFolder = $sPathFolder;        
         $this->sFileName = "app_".date("Ymd").".log";
         if(!$sPathFolder) $this->sPathFolder = __DIR__;
         if(!$sSubfType) $this->sSubfType = "debug";
+        //intenta crear la carpeta de logs
         $this->fix_folder();
     }
     
@@ -42,8 +43,11 @@ class ComponentLog
         return $sReturn;
     }
     
-    public function save($sContent,$sTitle=NULL)
+    public function save($mxVar,$sTitle=NULL)
     {
+        if(!is_string($mxVar)) 
+            $mxVar = var_export($mxVar,1);
+        
         $sPathFile = $this->sPathFolder.self::DS
                         .$this->sSubfType.self::DS
                         .$this->sFileName;
@@ -55,7 +59,7 @@ class ComponentLog
 
         if($oCursor !== FALSE)
         {
-            $sToSave = $this->merge($sContent,$sTitle);
+            $sToSave = $this->merge($mxVar,$sTitle);
             fwrite($oCursor,""); //Grabo el caracter vacio
             if(!empty($sToSave)) fwrite($oCursor,$sToSave);
             fclose($oCursor); //cierro el archivo.

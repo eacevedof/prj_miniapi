@@ -3,5 +3,8 @@
 use PHPUnit\Framework\TestCase;
 class DepartmentModelTest extends TestCase
 {
-      
+      public function is_instanciable_test()
+      {
+          
+      }
 }//DepartmentModelTest
