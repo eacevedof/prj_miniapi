@@ -3,14 +3,13 @@
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
  * @name App\Controllers\EmployeesController 
- * @file EmployeesController.php v1.0.0
- * @date 29-11-2018 19:00 SPAIN
+ * @file EmployeesController.php 2.0.0
+ * @date 30-11-2018 19:00 SPAIN
  * @observations
  */
 namespace App\Controllers;
 
 use App\Controllers\AppController;
-use App\Models\EmployeeModel;
 use App\Services\EmployeeService;
 
 class EmployeesController extends AppController
@@ -24,13 +23,9 @@ class EmployeesController extends AppController
     {
         $iPage = $this->get_get("page");
         if(!$iPage) $iPage=1;
-
-        $oEmpleado = new EmployeeModel();
-        $oEmpleado->set_perpage(50);
-        $oEmpleado->set_page($iPage);
-        $arRows = $oEmpleado->get_list();
-        $arPage = $oEmpleado->get_pagination();
-        $this->show_json_ok(["data"=>$arRows,"pagination"=>$arPage] ,0);
+        $oEmployeeSrv = new EmployeeService();
+        $arResult = $oEmployeeSrv->index($iPage);
+        $this->show_json_ok($arResult,0);
     }
     
     /**
@@ -39,10 +34,11 @@ class EmployeesController extends AppController
     public function profile()
     {
         $id = $this->get_get("id");
-        $oEmpleado = new EmployeeModel();
-        $arRows = $oEmpleado->get_profile($id);
-        $arRows = isset($arRows[0])?$arRows[0]:[];
-        $this->show_json_ok($arRows);        
+        $oEmployeeSrv = new EmployeeService();
+        $arRow = $oEmployeeSrv->profile($id);
+        if(!$arRow)
+            return $this->show_json_nok("Employee ($id) not found",200);
+        $this->show_json_ok($arRow);
     }
     
     /**
@@ -53,7 +49,7 @@ class EmployeesController extends AppController
         $this->log($this->get_post(),"post en insert");
         
         if(!$this->is_post())
-            return $this->show_json_nok("Error saving employee",204);
+            return $this->show_json_nok("Employee not created",204);
      
         $arPost = $this->get_post();
         $oEmployeeSrv = new EmployeeService();
@@ -61,7 +57,6 @@ class EmployeesController extends AppController
         if($oEmployeeSrv->is_error())
              return $this->show_json_nok($this->get_error(),204);
         $this->show_json_ok($arPost);
-
     }//insert()
 
 }//EmployeesController
