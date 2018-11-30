@@ -4,6 +4,32 @@
 
 > [Especificaciones](https://docs.google.com/document/d/1OjpH4HSNwnkJvEKZUx7cf5dCJuQZ15a1gqYmf9lYEq4/edit?usp=sharing)
 
+<hr/>
+
+## Frontend:
+
+- En este fichero `<project>\frontend\static\config.js` se configura el **endpoint** raíz de la API. 
+
+- `/`: listado de empleados
+- `/employee/profile/{emp_no}`: Perfil del empleado
+- `/employee/insert`: Crear un empleado
+
+### Live examples
+- http://employees.eduardoaf.com/
+- http://employees.eduardoaf.com/employee/profile/{emp_no}
+
+### Vue.js
+- La aplicación en Vue se encuentra en este repositorio:
+    **https://github.com/eacevedof/prj_vue2_rimor1/tree/master/vuecli-router**
+    Originalmente esta aplicación fue un tutorial de Vue que lo he reciclado para el 
+    frontend de este proyecto.
+    
+- En la carpeta frontend dejaré solo el compilado de producción de Vue.
+- He utilizado composer para apoyarme en su autoload
+- Dentro de vendor vereis una carpeta llamada `theframework`. Esta aloja clases creadas por mi y no es un framework como tal.
+
+<hr/>
+
 ## Backend:
 
 - Lanzar la API con el siguiente comando
@@ -46,27 +72,3 @@ php -S localhost:9000 -t frontend
 - http://telecoming.eduardoaf.com/picklists/titles
 
 <hr/>
-
-## Frontend:
-
-- En este fichero `prj_miniapi\frontend\static\config.json` se configura el dominio de la API. 
-
-- `/`: listado de empleados
-- `/employee/profile/{emp_no}`: Perfil del empleado
-- `/employee/insert`: Crear un empleado
-
-### Live examples
-- http://employees.eduardoaf.com/
-- http://employees.eduardoaf.com/employee/profile/{emp_no}
-
-### Vue.js
-- La aplicación en Vue se encuentra en este repositorio:
-    **https://github.com/eacevedof/prj_vue2_rimor1/tree/master/vuecli-router**
-    Originalmente esta aplicación fue un tutorial de Vue que lo he reciclado para el 
-    frontend de este proyecto.
-    
-- En la carpeta frontend dejaré solo el compilado de producción de Vue.
-- He utilizado composer para apoyarme en su autoload
-- [He instalado Phpunit con el fin de configurar pruebas (sin terminar)](https://github.com/eacevedof/prj_miniapi/tree/master/backend/src/tests)
-- Dentro de vendor vereis una carpeta llamada `theframework`. Esta aloja clases creadas por mi y no es un framework como tal.
-
