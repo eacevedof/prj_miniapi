@@ -56,7 +56,7 @@ departamento (departments.dept_name)
 */         
         $this->arQueries["get_list"] ="        
         /*EmployeeModel.get_list*/
-        SELECT DISTINCT e.`emp_no` AS id
+        SELECT e.`emp_no` AS id
         ,e.`first_name` AS nombre
         ,e.`last_name` AS apellidos
         ,e.`hire_date` AS fecha_contratacion
@@ -142,7 +142,7 @@ salario (salaries.salary)
 */         
         $this->arQueries["get_profile"] = "
         /*EmployeeModel.get_profile*/
-        SELECT DISTINCT e.`emp_no` AS id
+        SELECT e.`emp_no` AS id
         ,e.`first_name` AS nombre
         ,e.`last_name` AS apellidos
         ,e.`gender` AS genero
@@ -280,12 +280,12 @@ salario (salaries.salary)
         $iTotRegs = $this->get_total_regs();
         //las paginas completas, es decir con 50 regs
         $iFullPages = ceil($iTotRegs/$iPerPage)-1;
-        $iHalfPages = $iTotRegs%$iPerPage;
-        if($iHalfPages>0) $iFullPages++;
+        $iRegsRemained = $iTotRegs%$iPerPage;
+        if($iRegsRemained>0) $iFullPages++;
 
         $arPages["currpage"] = $this->iPage;
-        $arPages["totpages"] = $iFullPages;
-        $arPages["perpage"] = $iHalfPages;
+        $arPages["totpages"] = (int)$iFullPages;
+        //$arPages["halfpages"] = $iRegsRemained;
         $arPages["totregs"] = $iTotRegs;
         $arPages["perpage"] = $iPerPage;
         
