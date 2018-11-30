@@ -83,18 +83,18 @@ class EmployeeService extends AppService
     
     public function update($id,$arPost)
     {
-        //TODO: Tendría que probar validación de tipos, campos requeridos y longitudes antes de procesar el insert
-        //recupero los datos del form
-        $oEmployee = new EmployeeModel();
-        if(!isset($arPost["birthdate"])) 
-            $arPost["birthdate"] = "2000-01-01";
-        if(!isset($arPost["hiredate"])) 
-            $arPost["hiredate"] = date("Y-m-d");
-        if(!isset($arPost["empno"])) 
-            $arPost["empno"] = $oEmployee->get_new_empno();
+        //emulo como si el empno hubiera venido por POST
+        $arPost["empno"] = $id;
         
-        //hago el insert del empleado
-        $oEmployee->insert($arPost);
+        $oEmployee = new EmployeeModel();
+        if(!$oEmployee->is_pks_ok($arPost))
+        {
+            $this->add_error("Required primary keys");
+            return FALSE;
+        }
+        
+        //hago el UPDATE del empleado
+        $oEmployee->update($arPost);
 
         if($oEmployee->is_error())
         {
@@ -103,23 +103,24 @@ class EmployeeService extends AppService
             return FALSE;
         }
           
-        if(!isset($arPost["fromdate"]))$arPost["fromdate"] = $arPost["hiredate"];
-        if(!isset($arPost["todate"]))$arPost["todate"] = "9999-01-01";
-
         //departamento de empleado
         $oDeptEmp = new DeptEmpModel();
-        $oDeptEmp->insert($arPost);
+        if($oDeptEmp->is_pks_ok($arPost)) $oDeptEmp->update($arPost);
 
         //cargo
         $oTitle = new TitleModel();
-        $oTitle->insert($arPost);
+        if($oTitle->is_pks_ok($arPost)) $oTitle->update($arPost);
 
         //salario
         $oSalary = new SalaryModel();
-        $oSalary->insert($arPost);
+        if($oSalary->is_pks_ok($arPost)) $oSalary->update($arPost);
         
         $this->log($arPost,"EmployeService");
         return $arPost;
     }//update    
     
+    public function delete($id,$arPost)
+    {
+        //TODO
+    }//delete
 }//EmployeeService

@@ -149,7 +149,20 @@ class AppModel
             $this->log($oCrud->get_sql(),($oCrud->is_error()?"ERROR":NULL));
         }
     }//delete
-        
+    
+    /**
+     * Se usa antes de borrar o actualizar
+     * Se pasa el post y comprueba que existan todos los campos clave
+     * @param array $arPost ["uifield"=>"value" ...]
+     * @return boolean
+     */
+    public function is_pks_ok($arPost)
+    {
+        $arData = $this->get_keyvals($arPost);
+        $arPks = $this->get_no_pks($arData);
+        return (count($arPks)===count($this->arPks));
+    }
+    
     public function log($mxVar,$sTitle=NULL)
     {
         $oLog = new ComponentLog("sql",__DIR__."/../logs");

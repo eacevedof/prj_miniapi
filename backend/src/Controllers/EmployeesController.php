@@ -68,7 +68,7 @@ class EmployeesController extends AppController
         $this->log($this->get_post(),"post en insert");
         
         if(!$this->is_post())
-            return $this->show_json_nok("Employee not created",204);
+            return $this->show_json_nok("Employee not updated",204);
      
         $arPost = $this->get_post();
         $oEmployeeSrv = new EmployeeService();
