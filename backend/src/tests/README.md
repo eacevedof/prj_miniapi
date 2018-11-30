@@ -8,7 +8,13 @@
 [Otro ejemplo](https://github.com/eacevedof/prj_phphexarq/blob/master/tests/AuthorTest.php)
 
 **Ejecución** 
-```
-./vendor/bin/phpunit tests --color=auto
+```js
+cd <project>/backend 
+
+Una clase:
+./vendor/bin/phpunit --bootstrap ./vendor/theframework/bootstrap.php ./src/tests/<ClassTest>.php --color=auto
+
+Todos los tests:
+./vendor/bin/phpunit --bootstrap ./vendor/theframework/bootstrap.php ./src/tests
 ```
 
