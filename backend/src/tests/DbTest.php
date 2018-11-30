@@ -56,4 +56,5 @@ class DbTest extends TestCase
         $this->log($arRows,"test_connection");
         $this->assertEquals(TRUE,count($arRows)>1);
     }
+    
 }//DbTest
