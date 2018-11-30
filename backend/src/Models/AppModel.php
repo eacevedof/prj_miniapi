@@ -3,8 +3,8 @@
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
  * @name App\Models\AppModel 
- * @file AppModel.php 1.0.1
- * @date 29-11-2018 19:00 SPAIN
+ * @file AppModel.php 2.0.0
+ * @date 01-12-2018 00:00 SPAIN
  * @observations
  */
 namespace App\Models;
@@ -80,41 +80,73 @@ class AppModel
             $this->log($oCrud->get_sql());
             if($oCrud->is_error())
                 $this->add_error("An error occurred while trying to save");
+            $this->log($oCrud->get_sql(),($oCrud->is_error()?"ERROR":NULL));
         }
     }//insert    
 
+    private function get_pks($arData)
+    {
+        $arPks = [];
+        foreach($arData as $sFieldName=>$sValue)
+            if(in_array($sFieldName,$this->arPks))
+                $arPks[$sFieldName] = $sValue;
+        return $arPks;
+    }
+    
+    private function get_no_pks($arData)
+    {
+        $arPks = [];
+        foreach($arData as $sFieldName=>$sValue)
+            if(!in_array($sFieldName,$this->arPks))
+                $arPks[$sFieldName] = $sValue;
+        return $arPks;
+    }    
+    
     public function update($arPost)
     {
         $arData = $this->get_keyvals($arPost);
         
+        $arNoPks = $this->get_no_pks($arData);
+        $arPks = $this->get_pks($arData);
+        
         if($arData)
         {
+            //habría que comprobar count(arPks)==count($this->arPks)
             $oCrud = new ComponentCrud($this->oDb);
             $oCrud->set_table($this->sTable);
-            foreach($arKeys as $sFieldName=>$sValue)
-                $oCrud->add_pk_fv($sFieldName,$sValue);
-            $oCrud->autodelete();
-            $this->log($oCrud->get_sql());
             
+            //valores del "SET"
+            foreach($arNoPks as $sFieldName=>$sValue)
+                $oCrud->add_update_fv($sFieldName,$sValue);
+            
+            //valores del WHERE 
+            foreach($arPks as $sFieldName=>$sValue)
+                $oCrud->add_pk_fv($sFieldName,$sValue);
+            
+            $oCrud->autodelete();           
             if($oCrud->is_error())
-                $this->add_error("An error occurred while trying to delete");            
+                $this->add_error("An error occurred while trying to delete");  
+            
+            $this->log($oCrud->get_sql(),($oCrud->is_error()?"ERROR":NULL));
         }
     }//update
     
-    public function delete($arKeys)
+    public function delete($arPost)
     {
-        $arData = $this->get_keyvals($arKeys);
-        if($arData)
+        $arData = $this->get_keyvals($arPost);
+        $arPks = $this->get_pks($arData);
+        if($arPks)
         {
             $oCrud = new ComponentCrud($this->oDb);
             $oCrud->set_table($this->sTable);
-            foreach($arKeys as $sFieldName=>$sValue)
+            foreach($arPks as $sFieldName=>$sValue)
                 $oCrud->add_pk_fv($sFieldName,$sValue);
             $oCrud->autodelete();
-            $this->log($oCrud->get_sql());
             
             if($oCrud->is_error())
-                $this->add_error("An error occurred while trying to delete");            
+                $this->add_error("An error occurred while trying to delete");  
+            
+            $this->log($oCrud->get_sql(),($oCrud->is_error()?"ERROR":NULL));
         }
     }//delete
         
