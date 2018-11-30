@@ -24,7 +24,6 @@ class EmployeeService extends AppService
 
     public function insert($arPost)
     {
-        //TODO: Habria que hacer un middleware antes de procesar el post
         //TODO: Tendría que probar validación de tipos, campos requeridos y longitudes antes de procesar el insert
         //recupero los datos del form
         $oEmployee = new EmployeeModel();
@@ -80,6 +79,47 @@ class EmployeeService extends AppService
         $arRow = $oEmpleado->get_profile($id);
         $arRow = isset($arRow[0])?$arRow[0]:[];
         return $arRow;
-    }//
+    }//profile
+    
+    public function update($id,$arPost)
+    {
+        //TODO: Tendría que probar validación de tipos, campos requeridos y longitudes antes de procesar el insert
+        //recupero los datos del form
+        $oEmployee = new EmployeeModel();
+        if(!isset($arPost["birthdate"])) 
+            $arPost["birthdate"] = "2000-01-01";
+        if(!isset($arPost["hiredate"])) 
+            $arPost["hiredate"] = date("Y-m-d");
+        if(!isset($arPost["empno"])) 
+            $arPost["empno"] = $oEmployee->get_new_empno();
+        
+        //hago el insert del empleado
+        $oEmployee->insert($arPost);
+
+        if($oEmployee->is_error())
+        {
+            //escalo el error al servicio
+            $this->add_error($oEmployee->get_error());
+            return FALSE;
+        }
+          
+        if(!isset($arPost["fromdate"]))$arPost["fromdate"] = $arPost["hiredate"];
+        if(!isset($arPost["todate"]))$arPost["todate"] = "9999-01-01";
+
+        //departamento de empleado
+        $oDeptEmp = new DeptEmpModel();
+        $oDeptEmp->insert($arPost);
+
+        //cargo
+        $oTitle = new TitleModel();
+        $oTitle->insert($arPost);
+
+        //salario
+        $oSalary = new SalaryModel();
+        $oSalary->insert($arPost);
+        
+        $this->log($arPost,"EmployeService");
+        return $arPost;
+    }//update    
     
 }//EmployeeService

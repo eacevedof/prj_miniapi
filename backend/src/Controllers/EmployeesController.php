@@ -26,7 +26,7 @@ class EmployeesController extends AppController
         $oEmployeeSrv = new EmployeeService();
         $arResult = $oEmployeeSrv->index($iPage);
         $this->show_json_ok($arResult,0);
-    }
+    }//index
     
     /**
      * ruta: <dominio>/employees/profile?id={emp_no}
@@ -58,5 +58,25 @@ class EmployeesController extends AppController
              return $this->show_json_nok($this->get_error(),204);
         $this->show_json_ok($arPost);
     }//insert()
+    
+    /**
+     * ruta: <dominio>/employees/update?id={emp_no}
+     */
+    public function update()
+    {
+        //traza del post
+        $this->log($this->get_post(),"post en insert");
+        
+        if(!$this->is_post())
+            return $this->show_json_nok("Employee not created",204);
+     
+        $arPost = $this->get_post();
+        $oEmployeeSrv = new EmployeeService();
+        $arPost = $oEmployeeSrv->update($id,$arPost);
+        if($oEmployeeSrv->is_error())
+             return $this->show_json_nok($this->get_error(),204);
+        $this->show_json_ok($arPost);
+    }//update()
+    
 
 }//EmployeesController

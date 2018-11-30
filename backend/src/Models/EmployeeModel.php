@@ -292,6 +292,8 @@ salario (salaries.salary)
         return $arPages;
     }//get_pagination
 
+
+
     public function set_perpage($iValue){$this->iPerPage = ($iValue===0)?1:$iValue;}
     public function set_page($iValue){$this->iPage = $iValue;}
 

@@ -82,6 +82,16 @@ class AppModel
         }
     }//insert    
 
+    public function update($id,$arPost)
+    {
+        //TODO
+    }//update
+    
+    public function delete($id)
+    {
+        //TODO
+    }//delete
+    
     public function log($mxVar,$sTitle=NULL)
     {
         $oLog = new ComponentLog("sql",__DIR__."/../logs");
