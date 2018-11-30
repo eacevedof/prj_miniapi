@@ -18,6 +18,7 @@ class AppModel
     protected $oDb;
     protected $sTable;
     protected $arFields;
+    protected $arPks;
     
     protected $arErrors = [];
     protected $isError = FALSE;
@@ -82,16 +83,41 @@ class AppModel
         }
     }//insert    
 
-    public function update($id,$arPost)
+    public function update($arPost)
     {
-        //TODO
+        $arData = $this->get_keyvals($arPost);
+        
+        if($arData)
+        {
+            $oCrud = new ComponentCrud($this->oDb);
+            $oCrud->set_table($this->sTable);
+            foreach($arKeys as $sFieldName=>$sValue)
+                $oCrud->add_pk_fv($sFieldName,$sValue);
+            $oCrud->autodelete();
+            $this->log($oCrud->get_sql());
+            
+            if($oCrud->is_error())
+                $this->add_error("An error occurred while trying to delete");            
+        }
     }//update
     
-    public function delete($id)
+    public function delete($arKeys)
     {
-        //TODO
+        $arData = $this->get_keyvals($arKeys);
+        if($arData)
+        {
+            $oCrud = new ComponentCrud($this->oDb);
+            $oCrud->set_table($this->sTable);
+            foreach($arKeys as $sFieldName=>$sValue)
+                $oCrud->add_pk_fv($sFieldName,$sValue);
+            $oCrud->autodelete();
+            $this->log($oCrud->get_sql());
+            
+            if($oCrud->is_error())
+                $this->add_error("An error occurred while trying to delete");            
+        }
     }//delete
-    
+        
     public function log($mxVar,$sTitle=NULL)
     {
         $oLog = new ComponentLog("sql",__DIR__."/../logs");
@@ -102,6 +128,6 @@ class AppModel
     public function is_error(){return $this->isError;}
     public function get_errors($inJson=0){if($inJson) return json_encode($this->arErrors); return $this->arErrors;}
     public function get_error($i=0){isset($this->arErrors[$i])?$this->arErrors[$i]:NULL;}
-    public function show_errors(){echo "<pre>".var_export($this->arErrors,1);}  
-    
+    public function show_errors(){echo "<pre>".var_export($this->arErrors,1);} 
+        
 }//AppModel

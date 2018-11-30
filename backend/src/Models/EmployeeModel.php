@@ -25,12 +25,13 @@ class EmployeeModel extends AppModel
         $this->iPage = 1;
         $this->iPerPage = 50;
         parent::__construct();
+        $this->load_pk_fields();
         $this->load_fileds();
         $this->load_queries();
     }
     
     //hace un mapeo de los campos que vienen del formulario y los campos reales en bd
-    public function load_fileds()
+    private function load_fileds()
     {
         $arTmp = [
             ["db"=>"emp_no","ui"=>"empno"],
@@ -43,6 +44,11 @@ class EmployeeModel extends AppModel
         $this->arFields = $arTmp;
     }
 
+    private function load_pk_fields()
+    {
+        $this->arPks = ["emp_no"];
+    }//load_pk_fields  
+    
     public function load_queries()
     {
 /*

@@ -17,10 +17,11 @@ class TitleModel extends AppModel
     {
         $this->sTable = "titles";
         parent::__construct();
+        $this->load_pk_fields();
         $this->load_fileds();
     }
         
-    public function load_fileds()
+    private function load_fileds()
     {
         $arTmp = [
             ["db"=>"emp_no","ui"=>"empno"],
@@ -29,7 +30,12 @@ class TitleModel extends AppModel
             ["db"=>"to_date","ui"=>"todate"]
         ];
         $this->arFields = $arTmp;
-    }
+    }//load_fileds
+    
+    private function load_pk_fields()
+    {
+        $this->arPks = ["emp_no","title","from_date"];
+    }//load_pk_fields
     
     // carga combo
     public function get_picklist()

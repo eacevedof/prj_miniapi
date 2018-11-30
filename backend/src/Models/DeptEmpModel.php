@@ -17,11 +17,12 @@ class DeptEmpModel extends AppModel
     {
         $this->sTable = "dept_emp";
         parent::__construct();
+        $this->load_pk_fields();
         $this->load_fileds();
     }
     
     //hace un mapeo de los campos que vienen del formulario y los campos reales en bd
-    public function load_fileds()
+    private function load_fileds()
     {
         $arTmp = [
             ["db"=>"emp_no","ui"=>"empno"],
@@ -31,5 +32,10 @@ class DeptEmpModel extends AppModel
         ];
         $this->arFields = $arTmp;
     }
+    
+    private function load_pk_fields()
+    {
+        $this->arPks = ["emp_no","dept_no"];
+    }//load_pk_fields    
         
 }//DeptEmpModel

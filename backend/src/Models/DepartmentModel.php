@@ -17,11 +17,13 @@ class DepartmentModel extends AppModel
     {
         $this->sTable = "departments";
         parent::__construct();
+        
+        $this->load_pk_fields();
         $this->load_fileds();
     }
     
     //hace un mapeo de los campos que vienen del formulario y los campos reales en bd
-    public function load_fileds()
+    private function load_fileds()
     {
         $arTmp = [
             ["db"=>"first_name","ui"=>"firstname"],
@@ -30,7 +32,13 @@ class DepartmentModel extends AppModel
             ["db"=>"gender","ui"=>"gender"]
         ];
         $this->arFields = $arTmp;
-    }
+    }//load_fileds
+    
+    private function load_pk_fields()
+    {
+        $this->arPks = ["dept_no"];
+    }//load_pk_fields
+           
     // listado
     public function get_picklist()
     {
