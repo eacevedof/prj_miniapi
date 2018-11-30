@@ -9,6 +9,8 @@
  */
 namespace App\Controllers;
 
+use TheFramework\Components\ComponentLog;
+
 class AppController  
 {
     /**
@@ -47,4 +49,11 @@ class AppController
     
     protected function is_get(){return count($_GET)>0;}    
     
+    public function log($mxVar,$sTitle=NULL)
+    {
+        if(!is_string($mxVar))
+            $mxVar = var_export($mxVar,1);
+        $oLog = new ComponentLog("debug",__DIR__."/../logs");
+        $oLog->save($mxVar,$sTitle);
+    }    
 }//AppController

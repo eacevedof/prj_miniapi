@@ -51,6 +51,7 @@ class EmployeesController extends AppController
      */
     public function insert()
     {
+        $this->log($this->get_post(),"post en insert");
         //si hay algo en el post
         if($this->is_post())
         {
@@ -64,7 +65,7 @@ class EmployeesController extends AppController
             
             if(!$oEmployee->is_error())
             {
-                $arPost["fromdate"] = date("Y-m-d");
+                $arPost["fromdate"] = $arPost["hiredate"];
                 $arPost["todate"] = "9999-01-01";
                 
                 $oDeptEmp = new DeptEmpModel();
@@ -76,6 +77,7 @@ class EmployeesController extends AppController
                 $oSalary = new \App\Models\SalaryModel();
                 $oSalary->insert($arPost);
                 
+                $this->log($arPost,"post2 en insert");
                 $this->show_json(["id"=>$arPost["empno"]]);
             }
 
