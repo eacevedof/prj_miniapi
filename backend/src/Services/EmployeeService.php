@@ -12,6 +12,7 @@ namespace App\Services;
 use App\Services\AppService;
 use App\Models\DeptEmpModel;
 use App\Models\TitleModel;
+use App\Models\EmployeeModel;
 
 class EmployeeService extends AppService
 {
@@ -45,7 +46,9 @@ class EmployeeService extends AppService
             $oSalary->insert($arPost);
 
             $this->log($arPost,"post2 en insert");
-        }        
+            return $arPost;
+        } 
+        return FALSE;
     }//insert
     
 }//EmployeeService

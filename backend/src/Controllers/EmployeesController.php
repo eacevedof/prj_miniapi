@@ -51,15 +51,17 @@ class EmployeesController extends AppController
     public function insert()
     {
         $this->log($this->get_post(),"post en insert");
-        //si hay algo en el post
-        if($this->is_post())
-        {
-            $oEmployeeSrv = new EmployeeService();
-            $arPost = $oEmployeeSrv->insert($arPost);
-            if($oEmployeeSrv->is_error())
-                
-            $this->show_json_ok(["id"=>$arPost["empno"]]);
-        }//if(this->post)
+        
+        if(!$this->is_post())
+            return $this->show_json_nok("Error saving employee",204);
+     
+        $arPost = $this->get_post();
+        $oEmployeeSrv = new EmployeeService();
+        $arPost = $oEmployeeSrv->insert($arPost);
+        if($oEmployeeSrv->is_error())
+             return $this->show_json_nok($this->get_error(),204);
+        $this->show_json_ok($arPost);
+
     }//insert()
 
 }//EmployeesController

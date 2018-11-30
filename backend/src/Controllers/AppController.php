@@ -22,8 +22,7 @@ class AppController
     protected function show_json_ok($arRows, $inData=1)
     {
         $arTmp = $arRows;
-        if($inData)
-            $arTmp = ["data" => $arRows];
+        if($inData) $arTmp = ["data" => $arRows];
         
         $sJson = json_encode($arTmp);
         $this->send_http_status(200);
@@ -89,9 +88,8 @@ class AppController
         );
 
         header($arCodes[$iCode]);
-
-        return array('code'=>$iCode,'error'=>$arCodes[$iCode]);
-    }
+        return array("code"=>$iCode,"error"=>$arCodes[$iCode]);
+    }//send_http_status
     
     /**
      * lee valores de $_POST
@@ -125,6 +123,7 @@ class AppController
     
     private function add_error($sMessage){$this->isError = TRUE;$this->arErrors[]=$sMessage;}
     public function is_error(){return $this->isError;}
-    public function get_errors(){return $this->arErrors;}
+    public function get_errors($inJson=0){if($inJson) return json_encode($this->arErrors); return $this->arErrors;}
+    public function get_error($i=0){isset($this->arErrors[$i])?$this->arErrors[$i]:NULL;}
     public function show_errors(){echo "<pre>".var_export($this->arErrors,1);}      
 }//AppController

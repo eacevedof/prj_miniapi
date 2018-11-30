@@ -19,9 +19,7 @@ class NotFoundController extends AppController
         $arRutas = include $sPath;
         s("<pre>");
         foreach($arRutas as $arRuta)
-        {
             s("<a href=\"{$arRuta["url"]}\" target=\"_blank\">{$arRuta["url"]}</a><br/>");
-        }
     }
 
     public function error_404()
