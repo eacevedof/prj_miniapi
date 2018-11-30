@@ -48,9 +48,7 @@ php -S localhost:9000 -t frontend
 
 ### Live examples
 - http://employees.eduardoaf.com/
-- http://employees.eduardoaf.com/employees
 - http://employees.eduardoaf.com/employee/profile/{emp_no}
-- http://employees.eduardoaf.com/employee/insert
 
 ### Vue.js
 - La aplicación en Vue se encuentra en este repositorio:
