@@ -64,6 +64,6 @@ php -S localhost:9000 -t frontend
     
 - En la carpeta frontend dejaré solo el compilado de producción de Vue.
 - He utilizado composer para apoyarme en su autoload
-- He instalado Phpunit con el fin de configurar pruebas (sin terminar)
+- [He instalado Phpunit con el fin de configurar pruebas (sin terminar)](https://github.com/eacevedof/prj_miniapi/tree/master/backend/src/tests)
 - Dentro de vendor vereis una carpeta llamada `theframework`. Esta aloja clases creadas por mi y no es un framework como tal.
 
