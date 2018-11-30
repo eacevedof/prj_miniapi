@@ -3,7 +3,7 @@
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
  * @name App\Models\AppModel 
- * @file AppModel.php v1.0.0
+ * @file AppModel.php 1.0.1
  * @date 29-11-2018 19:00 SPAIN
  * @observations
  */
@@ -81,21 +81,16 @@ class AppModel
                 $this->add_error("An error occurred while trying to save");
         }
     }//insert    
-    
-    protected function add_error($sMessage)
-    {
-        $this->arErrors[]=$sMessage;
-        $this->isError = TRUE;
-    }
-    
-    public function is_error(){return $this->isError;}
-    public function get_errros(){$this->arErrors;}
-    
+
     public function log($mxVar,$sTitle=NULL)
     {
-        if(!is_string($mxVar))
-            $mxVar = var_export($mxVar,1);
         $oLog = new ComponentLog("sql",__DIR__."/../logs");
         $oLog->save($mxVar,$sTitle);
     }
+    
+    private function add_error($sMessage){$this->isError = TRUE;$this->arErrors[]=$sMessage;}
+    public function is_error(){return $this->isError;}
+    public function get_errors(){return $this->arErrors;}
+    public function show_errors(){echo "<pre>".var_export($this->arErrors,1);}  
+    
 }//AppModel

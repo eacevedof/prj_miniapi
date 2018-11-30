@@ -18,12 +18,12 @@ class PicklistController extends AppController
     public function titles()
     {
         $oModel = new TitleModel();
-        $this->show_json($oModel->get_picklist());
+        $this->show_json_ok($oModel->get_picklist());
     }
 
     public function departments()
     {
         $oModel = new DepartmentModel();
-        $this->show_json($oModel->get_picklist());
+        $this->show_json_ok($oModel->get_picklist());
     }
 }//PicklistController

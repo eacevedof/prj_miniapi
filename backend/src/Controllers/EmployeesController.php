@@ -11,8 +11,7 @@ namespace App\Controllers;
 
 use App\Controllers\AppController;
 use App\Models\EmployeeModel;
-use App\Models\DeptEmpModel;
-use App\Models\TitleModel;
+use App\Services\EmployeeService;
 
 class EmployeesController extends AppController
 {
@@ -31,7 +30,7 @@ class EmployeesController extends AppController
         $oEmpleado->set_page($iPage);
         $arRows = $oEmpleado->get_list();
         $arPage = $oEmpleado->get_pagination();
-        $this->show_json(["data"=>$arRows,"pagination"=>$arPage] ,0);
+        $this->show_json_ok(["data"=>$arRows,"pagination"=>$arPage] ,0);
     }
     
     /**
@@ -43,7 +42,7 @@ class EmployeesController extends AppController
         $oEmpleado = new EmployeeModel();
         $arRows = $oEmpleado->get_profile($id);
         $arRows = isset($arRows[0])?$arRows[0]:[];
-        $this->show_json($arRows);        
+        $this->show_json_ok($arRows);        
     }
     
     /**
@@ -55,34 +54,11 @@ class EmployeesController extends AppController
         //si hay algo en el post
         if($this->is_post())
         {
-            //TODO: Habria que hacer un middleware antes de procesar el post
-            //TODO: Tendría que probar validación de tipos, campos requeridos y longitudes antes de procesar el insert
-            //recupero los datos del form
-            $arPost = $this->get_post();
-            $oEmployee = new EmployeeModel();
-            if(!isset($arPost["hiredate"]))$arPost["hiredate"] = date("Y-m-d");
-            if(!isset($arPost["empno"]))$arPost["empno"] = $oEmployee->get_new_empno();
-            $oEmployee->insert($arPost);
-            
-            if(!$oEmployee->is_error())
-            {
-                if(!isset($arPost["fromdate"]))$arPost["fromdate"] = $arPost["hiredate"];
-                if(!isset($arPost["todate"]))$arPost["todate"] = "9999-01-01";
+            $oEmployeeSrv = new EmployeeService();
+            $arPost = $oEmployeeSrv->insert($arPost);
+            if($oEmployeeSrv->is_error())
                 
-                $oDeptEmp = new DeptEmpModel();
-                $oDeptEmp->insert($arPost);
-                
-                $oTitle = new TitleModel();
-                $oTitle->insert($arPost);
-                
-                $oSalary = new \App\Models\SalaryModel();
-                $oSalary->insert($arPost);
-                
-                $this->log($arPost,"post2 en insert");
-                $this->show_json(["id"=>$arPost["empno"]]);
-            }
-
-            //if($oEmployee->is_error()) $arErrors[] = "employee";
+            $this->show_json_ok(["id"=>$arPost["empno"]]);
         }//if(this->post)
     }//insert()
 

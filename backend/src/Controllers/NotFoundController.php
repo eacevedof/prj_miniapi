@@ -26,7 +26,7 @@ class NotFoundController extends AppController
 
     public function error_404()
     {
-        $this->show_json(["message"=>"404 resource not found!"]);
+        $this->show_json_nok("Resource not found",404);
     }    
 
 }//NotFoundController
