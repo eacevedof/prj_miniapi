@@ -55,7 +55,8 @@ class EmployeesController extends AppController
         //si hay algo en el post
         if($this->is_post())
         {
-            //$arErrors = [];
+            //TODO: Habria que hacer un middleware antes de procesar el post
+            //TODO: Tendría que probar validación de tipos, campos requeridos y longitudes antes de procesar el insert
             //recupero los datos del form
             $arPost = $this->get_post();
             $oEmployee = new EmployeeModel();
