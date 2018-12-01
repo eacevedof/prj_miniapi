@@ -1,5 +1,19 @@
 <?php
-//index.php 1.0.0
+//index.php 2.0.0
+$arConfig = realpath(__DIR__."/../src/config/config.php");
+include($arConfig);
+
+//DOCUMENT_ROOT:es la carpeta public
+//echo $_SERVER["DOCUMENT_ROOT"];die;
+//si se está en producción se desactivan los mensajes en el navegador
+if(ENV=="p")
+{
+    $sToday = date("Ymd");
+    ini_set("display_errors",0);
+    ini_set("log_errors",1);
+    //Define where do you want the log to go, syslog or a file of your liking with
+    ini_set("error_log","{$_SERVER["DOCUMENT_ROOT"]}/../src/logs/sys_$sToday.log"); // or ini_set("error_log", "/path/to/syslog/file")
+}
 
 //Código de configuración de cabeceras que permiten consumir la API desde cualquier origen
 //fuente: https://stackoverflow.com/questions/14467673/enable-cors-in-htaccess
@@ -27,7 +41,7 @@ if($_SERVER["REQUEST_METHOD"] == 'OPTIONS')
 include_once '../vendor/autoload.php';
 //arranque de mis utilidades
 include_once '../vendor/theframework/bootstrap.php';
-//rutas, mapeo de url->controlador.metodo()
+//rutas, mapeo de url => controlador.metodo()
 $arRoutes = include_once '../src/routes/routes.php';
 $sRequestUri = $_SERVER["REQUEST_URI"];
 $arUri = explode("?",$sRequestUri);

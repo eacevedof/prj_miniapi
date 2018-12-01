@@ -54,7 +54,7 @@ class AppModel
         return $this->oDb->query($sSQL);
     }
 
-    protected function get_config($sKey)
+    protected function get_config($sKey="db")
     {
         //config db
         $arConfig = realpath(__DIR__."/../config/config.php");

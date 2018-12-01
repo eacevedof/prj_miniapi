@@ -120,8 +120,10 @@ class EmployeesController extends AppController
         bug($oRandom->get_hour());
               $oEmployee = new \App\Models\EmployeeModel();
         $arGender = $oEmployee->get_gender();
-        bug($arGender);
+        //bug($arGender,"arGender");
+        $arGender = array_column($arGender,"gender");
         pr($oRandom->get_itemkey(["a"=>"A","b"=>"B","c"=>"C","d"=>"D"]));
+        bug($oRandom->get_itemval($arGender));
         
     }
 

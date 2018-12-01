@@ -30,19 +30,20 @@ class InsertsTest extends TestCase
     
     private function get_employee_fakedata()
     {
-/*
-+-----------+------------+------+-----------+----------+
-| tablename | fieldname  | ispk | fieldtype | fieldlen |
-+-----------+------------+------+-----------+----------+
-| employees | emp_no     | Y    | int       | \N       |
-| employees | birth_date |      | date      | \N       |
-| employees | first_name |      | varchar   | 14       |
-| employees | last_name  |      | varchar   | 16       |
-| employees | gender     |      | enum      | 1        |
-| employees | hire_date  |      | date      | \N       |
-+-----------+------------+------+-----------+----------+
-*/
+        /*
+        +-----------+------------+------+-----------+----------+
+        | tablename | fieldname  | ispk | fieldtype | fieldlen |
+        +-----------+------------+------+-----------+----------+
+        | employees | emp_no     | Y    | int       | \N       |
+        | employees | birth_date |      | date      | \N       |
+        | employees | first_name |      | varchar   | 14       |
+        | employees | last_name  |      | varchar   | 16       |
+        | employees | gender     |      | enum      | 1        |
+        | employees | hire_date  |      | date      | \N       |
+        +-----------+------------+------+-----------+----------+
+        */
         $oEmployee = new EmployeeModel();
+        //hace un select distinct de gender
         $arGender = $oEmployee->get_gender();
         $iMax = (int) $oEmployee->get_max("emp_no");
         //emulo el post
@@ -50,23 +51,17 @@ class InsertsTest extends TestCase
         $arPost["birthdate"] = $this->oRnd->get_date_ymd();
         $arPost["firstname"] = $this->oRnd->get_date_ymd();
         $arPost["lastname"] = $this->oRnd->get_date_ymd();
-        
-        $arPost["gender"] = $this->oRnd->get_itemkey($arGender);
+        $arPost["gender"] = $this->oRnd->get_itemval($arGender);
         $arPost["hiredate"] = $this->oRnd->get_date_ymd();
+        
+        return $arPost;
     }
     
     public function insert_simple_employee()
     {
         $oEmployee = new EmployeeModel();
-        if(!isset($arPost["birthdate"])) 
-            $arPost["birthdate"] = "2000-01-01";
-        if(!isset($arPost["hiredate"])) 
-            $arPost["hiredate"] = date("Y-m-d");
-        if(!isset($arPost["empno"])) 
-            $arPost["empno"] = $oEmployee->get_new_empno();
-        
         //hago el insert del empleado
-        $oEmployee->insert($arPost);        
+        $oEmployee->insert($arPost);
     }
     
     public function test_multiple_inserts()
