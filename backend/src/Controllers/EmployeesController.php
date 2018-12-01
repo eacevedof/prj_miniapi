@@ -14,6 +14,13 @@ use App\Services\EmployeeService;
 
 class EmployeesController extends AppController
 {
+    
+    public function __construct()
+    {
+        //captura trazas de la petición en los logs
+        parent::__construct();
+    }
+    
     /**
      * ruta:    <dominio>/employees
      *          <dominio>/employees?page={n}
@@ -37,7 +44,7 @@ class EmployeesController extends AppController
         $oEmployeeSrv = new EmployeeService();
         $arRow = $oEmployeeSrv->profile($id);
         if(!$arRow)
-            return $this->show_json_nok("Employee ($id) not found",200);
+            return $this->show_json_nok("Employee ($id) not found",404);
         $this->show_json_ok($arRow);
     }
     
@@ -46,16 +53,17 @@ class EmployeesController extends AppController
      */
     public function insert()
     {
-        $this->log($this->get_post(),"post en insert");
-        
         if(!$this->is_post())
-            return $this->show_json_nok("Employee not created",204);
+            return $this->show_json_nok("Employee not created",402);
      
         $arPost = $this->get_post();
+        
         $oEmployeeSrv = new EmployeeService();
         $arPost = $oEmployeeSrv->insert($arPost);
+        
         if($oEmployeeSrv->is_error())
-             return $this->show_json_nok($this->get_error(),204);
+             return $this->show_json_nok($this->get_error(),402);
+        
         $this->show_json_ok($arPost);
     }//insert()
     
@@ -63,20 +71,41 @@ class EmployeesController extends AppController
      * ruta: <dominio>/employees/update?id={emp_no}
      */
     public function update()
-    {
-        //traza del post
-        $this->log($this->get_post(),"post en insert");
+    {        
         
-        if(!$this->is_post())
-            return $this->show_json_nok("Employee not updated",204);
+        if(!($this->is_post() || $this->get_get("id")))
+            return $this->show_json_nok("Employee not updated",402);
      
+        $id = $this->get_get("id");
         $arPost = $this->get_post();
+        
         $oEmployeeSrv = new EmployeeService();
         $arPost = $oEmployeeSrv->update($id,$arPost);
+        
         if($oEmployeeSrv->is_error())
-             return $this->show_json_nok($this->get_error(),204);
+             return $this->show_json_nok($this->get_error(),402);
+        
         $this->show_json_ok($arPost);
     }//update()
+    
+    /**
+     * ruta: <dominio>/employees/delete?id={emp_no}
+     */
+    public function delete()
+    {       
+        if(!($this->is_post() || $this->get_get("id")))
+            return $this->show_json_nok("Employee not deleted",204);
+     
+        $id = $this->get_get("id");
+        $arPost = $this->get_post();
+        
+        $oEmployeeSrv = new EmployeeService();
+        $arPost = $oEmployeeSrv->delete($id,$arPost);
+        if($oEmployeeSrv->is_error())
+             return $this->show_json_nok($this->get_error(),204);
+        
+        $this->show_json_ok($arPost);
+    }//update()    
     
 
 }//EmployeesController

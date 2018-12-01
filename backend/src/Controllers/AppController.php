@@ -17,6 +17,12 @@ class AppController
     use AppErrorTrait;
     use AppLogTrait;
     
+    public function __construct() 
+    {
+        //guardo trazas del $_GET y $_POST
+        $this->request_log();
+    }
+    
     /**
      * Por convención hay que devolver un json con la clave data
      */
@@ -112,6 +118,12 @@ class AppController
         return (isset($_GET[$sKey])?$_GET[$sKey]:"");
     }
     
-    protected function is_get(){return count($_GET)>0;}    
-      
+    protected function is_get(){return count($_GET)>0;}
+    
+    protected function request_log()
+    {
+        $sReqUri = $_SERVER["REQUEST_URI"];
+        $this->logd($this->get_get(),"$sReqUri GET");
+        $this->logd($this->get_post(),"$sReqUri POST");
+    }
 }//AppController

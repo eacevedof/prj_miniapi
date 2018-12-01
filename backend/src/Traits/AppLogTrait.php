@@ -18,4 +18,11 @@ trait AppLogTrait
         $oLog = new ComponentLog("sql",__DIR__."/../logs");
         $oLog->save($mxVar,$sTitle);
     }
+    
+    public function logd($mxVar,$sTitle=NULL)
+    {
+        $oLog = new ComponentLog("debug",__DIR__."/../logs");
+        $oLog->save($mxVar,$sTitle);
+    }
+    
 }//AppLogTrait

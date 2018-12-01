@@ -17,6 +17,13 @@ Ordenado por fecha de contratación y limitado a 50
 //Inserción de un empleado con los siguientes parámetros: 
     ["url"=>"/employees/insert","controller"=>"App\Controllers\EmployeesController","method"=>"insert"],
     ["url"=>"/employees/insert/","controller"=>"App\Controllers\EmployeesController","method"=>"insert"],
+    
+    //extras
+    ["url"=>"/employees/update","controller"=>"App\Controllers\EmployeesController","method"=>"update"],
+    ["url"=>"/employees/update/","controller"=>"App\Controllers\EmployeesController","method"=>"update"],    
+    ["url"=>"/employees/delete","controller"=>"App\Controllers\EmployeesController","method"=>"delete"],
+    ["url"=>"/employees/delete/","controller"=>"App\Controllers\EmployeesController","method"=>"delete"],
+    
 //para cargar selects
     ["url"=>"/picklists/departments","controller"=>"App\Controllers\PicklistController","method"=>"departments"],
     ["url"=>"/picklists/departments/","controller"=>"App\Controllers\PicklistController","method"=>"departments"],

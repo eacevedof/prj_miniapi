@@ -4,7 +4,7 @@
  * @link www.eduardoaf.com
  * @name TheFramework\Components\Db\ComponentMysql 
  * @file component_mysql.php v1.0.0
- * @date 19-09-2017 04:56 SPAIN
+ * @date 01-12-2018 04:56 SPAIN
  * @observations
  */
 namespace TheFramework\Components\Db;
@@ -93,6 +93,7 @@ class ComponentMysql
     private function add_error($sMessage){$this->isError = TRUE;$this->iAffected=-1; $this->arErrors[]=$sMessage;}    
     public function is_error(){return $this->isError;}
     public function get_errors(){return $this->arErrors;}
+    public function get_error($i=0){return isset($this->arErrors[$i])?$this->arErrors[$i]:NULL;}
     public function show_errors(){echo "<pre>".var_export($this->arErrors,1);}
     
     public function add_conn($k,$v){$this->arConn[$k]=$v;}
