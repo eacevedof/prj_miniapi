@@ -298,6 +298,22 @@ salario (salaries.salary)
         return $arPages;
     }//get_pagination
 
+    public function get_gender()
+    {
+        $oCrud = new \TheFramework\Components\Db\ComponentCrud($this->oDb);
+        $oCrud->set_comment("EmployeeModel.get_gender");
+        $oCrud->set_table($this->sTable);
+        $oCrud->is_distinct();
+        $oCrud->add_getfield("gender");
+        $oCrud->add_numeric("1");
+        $oCrud->add_pk_fv("1","1");// where 1=1
+        $oCrud->add_ands("gender","''","!="); //and gender!=''
+        $oCrud->add_orderby("gender"); //order by gender asc
+        $arRows = $oCrud->get_selectfrom();
+        $this->log($oCrud->get_sql());
+        return $arRows;
+    }
+    
     public function set_perpage($iValue){$this->iPerPage = ($iValue===0)?1:$iValue;}
     public function set_page($iValue){$this->iPage = $iValue;}
 

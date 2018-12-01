@@ -4,7 +4,7 @@
  * @link www.eduardoaf.com
  * @name TheFramework\Components\Db\ComponentMysql 
  * @file component_mysql.php v1.0.0
- * @date 01-12-2018 04:56 SPAIN
+ * @date 01-12-2018 13:20 SPAIN
  * @observations
  */
 namespace TheFramework\Components\Db;
@@ -82,6 +82,7 @@ class ComponentMysql
             {
                 $this->add_error("exec-error: $sSQL");
             }
+            return $mxR;
         }
         catch(PDOException $oE)
         {

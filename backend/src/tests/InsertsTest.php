@@ -4,6 +4,8 @@
 // ./vendor/bin/phpunit --bootstrap ./vendor/theframework/bootstrap.php ./src/tests
 use PHPUnit\Framework\TestCase;
 use TheFramework\Components\ComponentLog;
+
+use App\Services\RamdomizerService;
 use App\Models\DepartmentModel;
 use App\Models\DeptEmpModel;
 use App\Models\EmployeeModel;
@@ -13,15 +15,17 @@ use App\Models\TitleModel;
 
 class InsertsTest extends TestCase
 {    
+    private $oRnd;
+    
+    public function __construct() {
+        parent::__construct();
+        $this->oRnd = new RamdomizerService();
+    }
+    
     private function log($mxVar,$sTitle=NULL)
     {
         $oLog = new ComponentLog("logs",__DIR__);
         $oLog->save($mxVar,$sTitle);
-    }
-    
-    private function get_random_val($arValues)
-    {
-        return $arValues[array_rand($arValues)];
     }
     
     private function get_employee_fakedata()
@@ -39,10 +43,16 @@ class InsertsTest extends TestCase
 +-----------+------------+------+-----------+----------+
 */
         $oEmployee = new EmployeeModel();
+        $arGender = $oEmployee->get_gender();
         $iMax = (int) $oEmployee->get_max("emp_no");
         //emulo el post
         $arPost["empno"] = ($iMax++);
-        $arPost["birthdate"] = "";
+        $arPost["birthdate"] = $this->oRnd->get_date_ymd();
+        $arPost["firstname"] = $this->oRnd->get_date_ymd();
+        $arPost["lastname"] = $this->oRnd->get_date_ymd();
+        
+        $arPost["gender"] = $this->oRnd->get_itemkey($arGender);
+        $arPost["hiredate"] = $this->oRnd->get_date_ymd();
     }
     
     public function insert_simple_employee()

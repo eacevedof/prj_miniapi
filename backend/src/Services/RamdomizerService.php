@@ -103,4 +103,9 @@ class RamdomizerService extends AppService
         return implode($cSep,$arHour);        
     }
     
+    public function get_itemkey($arArray){return array_rand($arArray);}
+    
+    public function get_itemval($arArray){return $arArray[array_rand($arArray)];
+    
+    }    
 }//RamdomizerService
