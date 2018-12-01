@@ -35,6 +35,18 @@ class AppModel
         $oDb->add_conn("password",$arConfig["password"]);
         $this->oDb = $oDb;
     }
+        
+    public function get_max($sField)
+    {
+        if($sField)
+        {
+            $sSQL = "SELECT MAX($sField) AS maxed FROM $this->sTable";
+            $mxMaxed = $this->oDb->query($sSQL);
+            $mxMaxed = (isset($mxMaxed[0])?$mxMaxed[0]:NULL);
+            return $mxMaxed;
+        }
+        return NULL;
+    }
     
     public function get_lastinsert_id()
     {

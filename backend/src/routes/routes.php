@@ -18,18 +18,19 @@ Ordenado por fecha de contratación y limitado a 50
     ["url"=>"/employees/insert","controller"=>"App\Controllers\EmployeesController","method"=>"insert"],
     ["url"=>"/employees/insert/","controller"=>"App\Controllers\EmployeesController","method"=>"insert"],
     
-    //extras
+//extras
     ["url"=>"/employees/update","controller"=>"App\Controllers\EmployeesController","method"=>"update"],
     ["url"=>"/employees/update/","controller"=>"App\Controllers\EmployeesController","method"=>"update"],    
     ["url"=>"/employees/delete","controller"=>"App\Controllers\EmployeesController","method"=>"delete"],
     ["url"=>"/employees/delete/","controller"=>"App\Controllers\EmployeesController","method"=>"delete"],
+    ["url"=>"/employees/test","controller"=>"App\Controllers\EmployeesController","method"=>"test"],
     
-//para cargar selects
+//para cargar <selects>
     ["url"=>"/picklists/departments","controller"=>"App\Controllers\PicklistController","method"=>"departments"],
     ["url"=>"/picklists/departments/","controller"=>"App\Controllers\PicklistController","method"=>"departments"],
     ["url"=>"/picklists/titles","controller"=>"App\Controllers\PicklistController","method"=>"titles"],
     ["url"=>"/picklists/titles/","controller"=>"App\Controllers\PicklistController","method"=>"titles"],
 
-//resto de rutas
+//resto de rutas    
     ["url"=>"/404","controller"=>"App\Controllers\NotFoundController","method"=>"error_404"]
 ];

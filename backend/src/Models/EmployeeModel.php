@@ -298,9 +298,20 @@ salario (salaries.salary)
         return $arPages;
     }//get_pagination
 
-
-
     public function set_perpage($iValue){$this->iPerPage = ($iValue===0)?1:$iValue;}
     public function set_page($iValue){$this->iPage = $iValue;}
 
 }//EmployeeModel
+
+/*
++-----------+------------+------+-----------+----------+
+| tablename | fieldname  | ispk | fieldtype | fieldlen |
++-----------+------------+------+-----------+----------+
+| employees | emp_no     | Y    | int       | \N       |
+| employees | birth_date |      | date      | \N       |
+| employees | first_name |      | varchar   | 14       |
+| employees | last_name  |      | varchar   | 16       |
+| employees | gender     |      | enum      | 1        |
+| employees | hire_date  |      | date      | \N       |
++-----------+------------+------+-----------+----------+
+*/

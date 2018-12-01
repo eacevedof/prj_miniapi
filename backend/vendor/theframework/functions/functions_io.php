@@ -187,4 +187,5 @@ function get_tr($sConstantName){return @constant($sConstantName);}
 function tr($sConstantName){echo get_tr($sConstantName);}
 function preopen(){echo "<pre>\n";}
 function preclose(){echo "</pre>\n";}
-function s($sText){echo $sText;}
+//ojo tambien está en functions_debug
+function s($sString){if(!is_string($sString)) $sString = var_export($sString,1);echo $sString;}

@@ -10,10 +10,6 @@
 namespace App\Services;
 
 use App\Services\AppService;
-use App\Models\DeptEmpModel;
-use App\Models\TitleModel;
-use App\Models\EmployeeModel;
-use App\Models\SalaryModel;
 
 class RamdomizerService extends AppService
 {
@@ -31,12 +27,11 @@ class RamdomizerService extends AppService
         return $sContent;
     }
     
-    public function get_substring_len($iLen=NULL,$iStart=NULL)
+    public function get_substring_len($iLen)
     {
-        if(!$iStart) $iStart = $this->get_int(1,25);
+        $iStart = $this->get_int(1,25);
         $sString = $this->get_string();
-        $sString = substr($sString,$iStart);
-        if($iLen) $sString = substr($sString,$iLen);
+        $sString = substr($sString,$iStart,$iLen);
         return $sString;
     }
     
@@ -46,18 +41,66 @@ class RamdomizerService extends AppService
         $sString = substr($sString,$iStart);
         return $sString;        
     }
-    
-    
-    public function get_float()
-    {
         
+    public function get_float($iNint=1,$iNdec=3,$cDecSep=".")
+    {
+        $arFloat = [];
+        for($i=0;$i<$iNint; $i++)
+        {
+            if($i===0) 
+                $arFloat[]= $this->get_int(1,9);
+            else
+                $arFloat[]= $this->get_int(0,9);
+        }
+        
+        //separador
+        $arFloat[] = $cDecSep;
+        
+        for($i=0;$i<$iNdec; $i++)
+            $arFloat[] = $this->get_int(0,9);
+        
+        $sFloat = implode("",$arFloat);
+        return $sFloat;
     }
     
-    public function get_date()
-    {}
+    public function get_date_ymd($cSep="-")
+    {
+        $arDate["Y"] = $this->get_int(1900,date("Y"));
+        $arDate["m"] = sprintf("%02d",$this->get_int(1,12));
+        $arDate["d"] = sprintf("%02d",$this->get_int(1,31));
+        return implode($cSep,$arDate);
+    }
     
-    public function get_hour()
-    {}
+    public function get_date_dmy($cSep="-")
+    {
+        $arDate["d"] = sprintf("%02d",$this->get_int(1,31));
+        $arDate["m"] = sprintf("%02d",$this->get_int(1,12));
+        $arDate["Y"] = $this->get_int(1900,date("Y"));
+        return implode($cSep,$arDate);
+    }    
     
+    public function get_date_mdy($cSep="-")
+    {
+        $arDate["m"] = sprintf("%02d",$this->get_int(1,12));
+        $arDate["d"] = sprintf("%02d",$this->get_int(1,31));
+        $arDate["Y"] = $this->get_int(1900,date("Y"));
+        return implode($cSep,$arDate);
+    }
+    
+    public function is_date_ok($sDate,$sFormat="Y-m-d")
+    {
+        //fuente: https://stackoverflow.com/questions/19271381/correctly-determine-if-date-string-is-a-valid-date-in-that-format
+        $oDateTime = DateTime::createFromFormat($sFormat,$sDate);
+        // The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
+        return (($oDateTime && $oDateTime->format($sFormat)) === $sDate);
+    }
+    
+    public function get_hour($cSep=":")
+    {
+        $arHour["H"] = sprintf("%02d",$this->get_int(0,23));
+        $arHour["i"] = sprintf("%02d",$this->get_int(0,59));
+        $arHour["s"] = sprintf("%02d",$this->get_int(0,59));
+        return implode($cSep,$arHour);        
+    }
     
 }//RamdomizerService

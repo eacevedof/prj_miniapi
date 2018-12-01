@@ -107,5 +107,17 @@ class EmployeesController extends AppController
         $this->show_json_ok($arPost);
     }//update()    
     
+    /**
+     * ruta: <dominio>/employees/test
+     */    
+    public function test()
+    {
+        $oRandom = new \App\Services\RamdomizerService();
+        s($oRandom->get_string());
+        pr($oRandom->get_substring_len(15));
+        bug($oRandom->get_float(2,2));
+        pr($oRandom->get_date_ymd());
+        bug($oRandom->get_hour());
+    }
 
 }//EmployeesController

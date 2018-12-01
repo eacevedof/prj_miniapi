@@ -24,6 +24,41 @@ class InsertsTest extends TestCase
         return $arValues[array_rand($arValues)];
     }
     
+    private function get_employee_fakedata()
+    {
+/*
++-----------+------------+------+-----------+----------+
+| tablename | fieldname  | ispk | fieldtype | fieldlen |
++-----------+------------+------+-----------+----------+
+| employees | emp_no     | Y    | int       | \N       |
+| employees | birth_date |      | date      | \N       |
+| employees | first_name |      | varchar   | 14       |
+| employees | last_name  |      | varchar   | 16       |
+| employees | gender     |      | enum      | 1        |
+| employees | hire_date  |      | date      | \N       |
++-----------+------------+------+-----------+----------+
+*/
+        $oEmployee = new EmployeeModel();
+        $iMax = (int) $oEmployee->get_max("emp_no");
+        //emulo el post
+        $arPost["empno"] = ($iMax++);
+        $arPost["birthdate"] = "";
+    }
+    
+    public function insert_simple_employee()
+    {
+        $oEmployee = new EmployeeModel();
+        if(!isset($arPost["birthdate"])) 
+            $arPost["birthdate"] = "2000-01-01";
+        if(!isset($arPost["hiredate"])) 
+            $arPost["hiredate"] = date("Y-m-d");
+        if(!isset($arPost["empno"])) 
+            $arPost["empno"] = $oEmployee->get_new_empno();
+        
+        //hago el insert del empleado
+        $oEmployee->insert($arPost);        
+    }
+    
     public function test_multiple_inserts()
     {
         for($i=0;$i<10;$i++)

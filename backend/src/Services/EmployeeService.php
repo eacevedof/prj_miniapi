@@ -17,11 +17,6 @@ use App\Models\SalaryModel;
 
 class EmployeeService extends AppService
 {
-    public function __construct() 
-    {
-        parent::__construct();
-    }
-
     public function insert($arPost)
     {
         //TODO: Tendría que probar validación de tipos, campos requeridos y longitudes antes de procesar el insert
@@ -59,7 +54,7 @@ class EmployeeService extends AppService
         $oSalary = new SalaryModel();
         $oSalary->insert($arPost);
         
-        $this->log($arPost,"EmployeService");
+        $this->logd($arPost,"EmployeService");
         return $arPost;
     }//insert
     
@@ -115,12 +110,13 @@ class EmployeeService extends AppService
         $oSalary = new SalaryModel();
         if($oSalary->is_pks_ok($arPost)) $oSalary->update($arPost);
         
-        $this->log($arPost,"EmployeService");
+        $this->logd($arPost,"EmployeService");
         return $arPost;
     }//update    
     
     public function delete($id,$arPost)
     {
         //TODO
+
     }//delete
 }//EmployeeService

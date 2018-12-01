@@ -2,9 +2,9 @@
 /**
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
- * @version 1.5.1
+ * @version 1.6.0
  * @file functions_debug.php 
- * @date 20-04-2017 17:57 (SPAIN)
+ * @date 01-12-2018 17:57 (SPAIN)
  * @observations: Functions to print variables
  * @requires functions_string.php 1.0.2
  *  load:9
@@ -312,4 +312,4 @@ function bugconst()
     bug($arConsts,"CONSTANTS");
 }
 
-function s($sString){echo $sString;}
+function s($sString){if(!is_string($sString)) $sString = var_export($sString,1);echo $sString;}
