@@ -19,4 +19,9 @@ class AppService
     
     public function __construct(){;}
  
+    public function trim(&$arPost)
+    {
+        foreach($arPost as $sKey=>$sValue)
+            $arPost[$sKey] = trim($sValue);
+    }
 }//AppService

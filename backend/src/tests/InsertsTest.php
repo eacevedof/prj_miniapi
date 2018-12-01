@@ -45,11 +45,11 @@ class InsertsTest extends TestCase
         $iMax++;
         //emulo el post
         $arPost["empno"] = $iMax;
-        $arPost["birthdate"] = $this->oRnd->get_date_ymd();
+        $arPost["birthdate"] = $this->oRnd->get_date_ymd_from(1950);
         $arPost["firstname"] = $this->oRnd->get_substring_len(14);
         $arPost["lastname"] = $this->oRnd->get_substring_len(16);
         $arPost["gender"] = $this->oRnd->get_itemval($arGender);
-        $arPost["hiredate"] = $this->oRnd->get_date_ymd();
+        $arPost["hiredate"] = $this->oRnd->get_date_ymd_from(2000);
         
         return $arPost;
     }

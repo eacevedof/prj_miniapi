@@ -118,7 +118,7 @@ class EmployeesController extends AppController
         bug($oRandom->get_float(2,2));
         pr($oRandom->get_date_ymd());
         bug($oRandom->get_hour());
-              $oEmployee = new \App\Models\EmployeeModel();
+        $oEmployee = new \App\Models\EmployeeModel();
         $arGender = $oEmployee->get_gender();
         //bug($arGender,"arGender");
         $arGender = array_column($arGender,"gender");

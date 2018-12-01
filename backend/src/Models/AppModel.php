@@ -3,7 +3,7 @@
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
  * @name App\Models\AppModel 
- * @file AppModel.php 2.0.0
+ * @file AppModel.php 2.0.1
  * @date 01-12-2018 00:00 SPAIN
  * @observations
  */
@@ -42,7 +42,7 @@ class AppModel
         {
             $sSQL = "SELECT MAX($sField) AS maxed FROM $this->sTable";
             $mxMaxed = $this->oDb->query($sSQL);
-            $mxMaxed = (isset($mxMaxed[0])?$mxMaxed[0]:NULL);
+            $mxMaxed = (isset($mxMaxed[0]["maxed"])?$mxMaxed[0]["maxed"]:NULL);
             return $mxMaxed;
         }
         return NULL;

@@ -37,7 +37,7 @@ class EmployeeModel extends AppModel
             ["db"=>"emp_no","ui"=>"empno"],
             ["db"=>"first_name","ui"=>"firstname"],
             ["db"=>"last_name","ui"=>"lastname"],
-            ["db"=>"birth_name","ui"=>"birthname"],
+            ["db"=>"birth_date","ui"=>"birthdate"],
             ["db"=>"hire_date","ui"=>"hiredate"],
             ["db"=>"gender","ui"=>"gender"]
         ];
@@ -307,7 +307,7 @@ salario (salaries.salary)
         $oCrud->add_getfield("gender");
         $oCrud->add_numeric("1");
         $oCrud->add_pk_fv("1","1");// where 1=1
-        $oCrud->add_ands("gender","^","!="); //and gender!=''
+        $oCrud->add_ands("gender","''","!="); //and gender!=''
         $oCrud->add_orderby("gender"); //order by gender asc
         $arRows = $oCrud->get_selectfrom();
         $this->log($oCrud->get_sql());

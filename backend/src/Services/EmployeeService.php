@@ -19,6 +19,7 @@ class EmployeeService extends AppService
 {
     public function insert($arPost)
     {
+        $this->trim($arPost);
         //TODO: Tendría que probar validación de tipos, campos requeridos y longitudes antes de procesar el insert
         //recupero los datos del form
         $oEmployee = new EmployeeModel();
@@ -78,6 +79,7 @@ class EmployeeService extends AppService
     
     public function update($id,$arPost)
     {
+        $this->trim_post($arPost);        
         //emulo como si el empno hubiera venido por POST
         $arPost["empno"] = $id;
         
