@@ -3,8 +3,8 @@
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
  * @name TheFramework\Components\Db\ComponentCrud 
- * @file component_crud.php 2.1.0
- * @date 29-11-2018 04:56 SPAIN
+ * @file component_crud.php 2.2.0
+ * @date 01-12-2018 04:56 SPAIN
  * @observations
  */
 namespace TheFramework\Components\Db;
@@ -22,8 +22,13 @@ class ComponentCrud
     
     private $oDB;
     
-    private $isError = FALSE; 
+    protected $arErrors = [];
+    protected $isError = FALSE;
     
+    /**
+     * 
+     * @param TheFramework\Components\Db\ComponentMysql $oDB
+     */
     public function __construct($oDB=NULL)
     { 
         $this->arInsertFV = array();
@@ -73,11 +78,8 @@ class ComponentCrud
                 $sSQL .= ")";
                 
                 $this->sSQL = $sSQL;
-                if(is_object($this->oDB))
-                {
-                    $this->oDB->exec($this->sSQL);
-                    $this->isError = $this->oDB->is_error();
-                }
+                //si hay bd intenta ejecutar la consulta
+                $this->query("w");
             }//si se han proporcionado correctamente los datos campo=>valor
         }//se ha proporcionado una tabla
     }//autoinsert
@@ -130,11 +132,51 @@ class ComponentCrud
                 $sSQL .= " WHERE ".implode(" AND ",$arAux);
                 
                 $this->sSQL = $sSQL;
-                if(is_object($this->oDB))
-                    $this->oDB->exec($this->sSQL);
+                //si hay bd intenta ejecutar la consulta
+                $this->query("w");
             }//si se han proporcionado correctamente los datos campo=>valor y las claves
         }//se ha proporcionado una tabla
     }//autoupdate
+    
+    public function autodelete($sTable=NULL,$arPksFV=array())
+    {
+        //Limpio la consulta 
+        $this->sSQL = "-- autodelete";
+        
+        if($this->sSQLComment)
+            $sSQLComment = "/*$this->sSQLComment*/";
+        
+        if(!$sTable)
+            $sTable = $this->sTable;
+        
+        if($sTable)
+        {
+            if(!$arPksFV)
+                $arPksFV = $this->arPksFV;
+            
+            if($arPksFV)
+            {    
+                $sSQL = "$sSQLComment DELETE FROM $sTable ";
+                //condiciones con las claves
+                $arAnd = array();
+                
+                foreach($arPksFV as $sField=>$sValue)
+                {    
+                    if($sValue===NULL)
+                        $arAnd[] = "$sField IS NULL";
+                    else
+                        $arAnd[] = "$sField='$sValue'";
+                }                
+                
+                $sSQL .= " WHERE ".implode(" AND ",$arAnd);
+                
+                $this->sSQL = $sSQL;
+                //si hay bd intenta ejecutar la consulta
+                $this->query("w");
+                
+            }//si se han proporcionado correctamente las claves
+        }//se ha proporcionado una tabla
+    }//autodelete     
     
     public function autodelete_logic($sTable=NULL,$arPksFV=array())
     {
@@ -171,8 +213,8 @@ class ComponentCrud
                 $sSQL .= " WHERE ".implode(" AND ",$arAnd);
                 
                 $this->sSQL = $sSQL;
-                if(is_object($this->oDB))
-                    $this->oDB->exec($this->sSQL);
+                //si hay bd intenta ejecutar la consulta
+                $this->query("w");
             }//si se han proporcionado correctamente las claves
         }//se ha proporcionado una tabla
     }//autodelete_logic    
@@ -222,45 +264,6 @@ class ComponentCrud
             }//si se han proporcionado correctamente las claves
         }//se ha proporcionado una tabla
     }//autoundelete_logic  
-    
-    public function autodelete($sTable=NULL,$arPksFV=array())
-    {
-        //Limpio la consulta 
-        $this->sSQL = "-- autodelete";
-        
-        if($this->sSQLComment)
-            $sSQLComment = "/*$this->sSQLComment*/";
-        
-        if(!$sTable)
-            $sTable = $this->sTable;
-        
-        if($sTable)
-        {
-            if(!$arPksFV)
-                $arPksFV = $this->arPksFV;
-            
-            if($arPksFV)
-            {    
-                $sSQL = "$sSQLComment DELETE FROM $sTable ";
-                //condiciones con las claves
-                $arAnd = array();
-                
-                foreach($arPksFV as $sField=>$sValue)
-                {    
-                    if($sValue===NULL)
-                        $arAnd[] = "$sField IS NULL";
-                    else
-                        $arAnd[] = "$sField='$sValue'";
-                }                
-                
-                $sSQL .= " WHERE ".implode(" AND ",$arAnd);
-                
-                $this->sSQL = $sSQL;
-                if(is_object($this->oDB))
-                    $this->oDB->exec($this->sSQL);
-            }//si se han proporcionado correctamente las claves
-        }//se ha proporcionado una tabla
-    }//autodelete 
     
     public function get_selectfrom($sTable=NULL,$arFields=array(),$arPksFV=array())
     {
@@ -526,8 +529,6 @@ class ComponentCrud
         return NULL;
     }//get_nextcode()
     
-    public function is_error(){return $this->isError;}
-
     private function get_sanitized($sValue)
     {
         $sFixed = str_replace("'","\'",$sValue);
@@ -536,4 +537,33 @@ class ComponentCrud
         return $sFixed;
     }//get_sanitized
 
+    /**
+     * 
+     * @param char $sType r:read para selects, w:write. escrituras
+     * @return Solo se sale
+     */
+    private function query($sType="r")
+    {
+        if(is_object($this->oDB))
+        {
+            //insert,update,delete
+            if(method_exists($this->oDB,"exec") && $sType=="w")
+                $this->oDB->exec($this->sSQL);
+            //selects
+            elseif(method_exists($this->oDB,"query") && $sType=="r")
+                $this->oDB->query($this->sSQL);
+            else 
+                return $this->add_error("No match method/type operation");
+            
+            //propagamos el error
+            if($this->oDB->is_error())
+                $this->add_error($this->oDB->get_error());
+        }
+    }//query
+    
+    protected function add_error($sMessage){$this->isError = TRUE;$this->arErrors[]=$sMessage;}
+    public function is_error(){return $this->isError;}
+    public function get_errors($inJson=0){if($inJson) return json_encode($this->arErrors); return $this->arErrors;}
+    public function get_error($i=0){isset($this->arErrors[$i])?$this->arErrors[$i]:NULL;}
+    public function show_errors(){echo "<pre>".var_export($this->arErrors,1);}       
 }//Crud 2.1.0
