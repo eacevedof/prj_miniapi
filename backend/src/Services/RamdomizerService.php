@@ -4,7 +4,7 @@
  * @link www.eduardoaf.com
  * @name App\Services\RamdomizerService 
  * @file RamdomizerService.php 1.0.0
- * @date 29-11-2018 19:00 SPAIN
+ * @date 01-12-2018 14:45 SPAIN
  * @observations
  */
 namespace App\Services;
@@ -66,6 +66,14 @@ class RamdomizerService extends AppService
     public function get_date_ymd($cSep="-")
     {
         $arDate["Y"] = $this->get_int(1900,date("Y"));
+        $arDate["m"] = sprintf("%02d",$this->get_int(1,12));
+        $arDate["d"] = sprintf("%02d",$this->get_int(1,31));
+        return implode($cSep,$arDate);
+    }
+    
+    public function get_date_ymd_from($iFrom,$cSep="-")
+    {
+        $arDate["Y"] = $this->get_int($iFrom,date("Y"));
         $arDate["m"] = sprintf("%02d",$this->get_int(1,12));
         $arDate["d"] = sprintf("%02d",$this->get_int(1,31));
         return implode($cSep,$arDate);
