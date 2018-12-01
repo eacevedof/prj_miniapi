@@ -9,12 +9,13 @@
  */
 namespace App\Controllers;
 
-use TheFramework\Components\ComponentLog;
+use App\Traits\AppErrorTrait;
+use App\Traits\AppLogTrait;
 
 class AppController  
 {
-    protected $arErrors = [];
-    protected $isError = FALSE;
+    use AppErrorTrait;
+    use AppLogTrait;
     
     /**
      * Por convención hay que devolver un json con la clave data
@@ -112,18 +113,5 @@ class AppController
     }
     
     protected function is_get(){return count($_GET)>0;}    
-    
-    public function log($mxVar,$sTitle=NULL)
-    {
-        if(!is_string($mxVar))
-            $mxVar = var_export($mxVar,1);
-        $oLog = new ComponentLog("debug",__DIR__."/../logs");
-        $oLog->save($mxVar,$sTitle);
-    }  
-    
-    private function add_error($sMessage){$this->isError = TRUE;$this->arErrors[]=$sMessage;}
-    public function is_error(){return $this->isError;}
-    public function get_errors($inJson=0){if($inJson) return json_encode($this->arErrors); return $this->arErrors;}
-    public function get_error($i=0){isset($this->arErrors[$i])?$this->arErrors[$i]:NULL;}
-    public function show_errors(){echo "<pre>".var_export($this->arErrors,1);}      
+      
 }//AppController

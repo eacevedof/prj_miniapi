@@ -11,17 +11,19 @@ namespace App\Models;
 
 use TheFramework\Components\Db\ComponentMysql;
 use TheFramework\Components\Db\ComponentCrud;
-use TheFramework\Components\ComponentLog;
+
+use App\Traits\AppErrorTrait;
+use App\Traits\AppLogTrait;
 
 class AppModel 
 {
+    use AppErrorTrait;
+    use AppLogTrait;
+    
     protected $oDb;
     protected $sTable;
     protected $arFields;
     protected $arPks;
-    
-    protected $arErrors = [];
-    protected $isError = FALSE;
     
     public function __construct() 
     {
@@ -162,17 +164,5 @@ class AppModel
         $arPks = $this->get_no_pks($arData);
         return (count($arPks)===count($this->arPks));
     }
-    
-    public function log($mxVar,$sTitle=NULL)
-    {
-        $oLog = new ComponentLog("sql",__DIR__."/../logs");
-        $oLog->save($mxVar,$sTitle);
-    }
-    
-    private function add_error($sMessage){$this->isError = TRUE;$this->arErrors[]=$sMessage;}
-    public function is_error(){return $this->isError;}
-    public function get_errors($inJson=0){if($inJson) return json_encode($this->arErrors); return $this->arErrors;}
-    public function get_error($i=0){isset($this->arErrors[$i])?$this->arErrors[$i]:NULL;}
-    public function show_errors(){echo "<pre>".var_export($this->arErrors,1);} 
         
 }//AppModel
