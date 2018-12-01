@@ -44,6 +44,7 @@ class AppModel
 
     protected function get_config($sKey)
     {
+        //config db
         $arConfig = realpath(__DIR__."/../config/config.php");
         $arConfig = include($arConfig);
         return $arConfig[$sKey];        
@@ -125,7 +126,7 @@ class AppModel
             foreach($arPks as $sFieldName=>$sValue)
                 $oCrud->add_pk_fv($sFieldName,$sValue);
             
-            $oCrud->autodelete();           
+            $oCrud->autoupdate();           
             if($oCrud->is_error())
                 $this->add_error("An error occurred while trying to delete");  
             
