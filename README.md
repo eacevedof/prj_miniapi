@@ -8,15 +8,18 @@
 
 ## Frontend:
 
-- En este fichero [`<project>\frontend\static\config.js`](https://github.com/eacevedof/prj_miniapi/blob/master/frontend/static/config.js) se configura el **endpoint** raíz de la API. 
+### Live
+
+- http://employees.eduardoaf.com/
+- http://employees.eduardoaf.com/employees/profile/{emp_no}
+    - http://employees.eduardoaf.com/employees/profile/10550
 
 - `/`: listado de empleados
-- `/employee/profile/{emp_no}`: Perfil del empleado
-- `/employee/insert`: Crear un empleado
+- `/employees/profile/{emp_no}`: Perfil del empleado
+- `/employees/new`: Crear un empleado
 
-### Live examples
-- http://employees.eduardoaf.com/
-- http://employees.eduardoaf.com/employee/profile/{emp_no}
+### Instalación
+- En este fichero [`<project>\frontend\static\config.js`](https://github.com/eacevedof/prj_miniapi/blob/master/frontend/static/config.js) se configura el **endpoint** raíz de la API. 
 
 ### Vue.js
 - La aplicación en Vue se encuentra en este repositorio:
@@ -32,29 +35,7 @@
 
 ## Backend:
 
-- Lanzar la API con el siguiente comando
-```
-Esto sirve la api
-php -S localhost:3000 -t backend/public
-
-Esto sirve bootstrap (con vue.js)
-php -S localhost:9000 -t frontend
-```
-
-- En este fichero [`prj_miniapi\backend\src\config\config.php`](https://github.com/eacevedof/prj_miniapi/blob/master/backend/src/config/config.php) 
-se configura la base de datos.
-- Es importante cambiar la constante `define("ENV","d")`
-
-### Endpoints
-
-- `/`: Links con endpoints
-- `/employees` | `/employees/`: Listado de empleados
-- `/employees/profile` | `/employees/profile/`: Perfil empleado
-- `/employees/insert` | `/employees/insert/`: Crear empleado
-- `/picklists/departments` : Datos código/descripción de departamentos. Para llenar elementos `<select>`
-- `/picklists/titles` : Datos código/descripción de cargos. Para llenar elementos `<select>`
-
-### Live examples
+### Live
 - http://telecoming.eduardoaf.com/
 - http://telecoming.eduardoaf.com/employees
 - http://telecoming.eduardoaf.com/employees?page={npage}
@@ -73,9 +54,33 @@ se configura la base de datos.
 - http://telecoming.eduardoaf.com/picklists/departments
 - http://telecoming.eduardoaf.com/picklists/titles
 
+### Instalación
+
+- Lanzar la API con el siguiente comando
+```
+Esto publica la API (php)
+php -S localhost:3000 -t backend/public
+
+Esto publica bootstrap compilado con vue
+php -S localhost:9000 -t frontend
+```
+
+- En este fichero [`prj_miniapi\backend\src\config\config.php`](https://github.com/eacevedof/prj_miniapi/blob/master/backend/src/config/config.php) 
+se configura la base de datos.
+- Es importante cambiar la constante `define("ENV","d")`
+
+### Endpoints
+
+- `/`: Links con endpoints
+- `/employees` | `/employees/`: Listado de empleados
+- `/employees/profile` | `/employees/profile/`: Perfil empleado
+- `/employees/insert` | `/employees/insert/`: Crear empleado
+- `/picklists/departments` : Datos código/descripción de departamentos. Para llenar elementos `<select>`
+- `/picklists/titles` : Datos código/descripción de cargos. Para llenar elementos `<select>`
+
 <hr/>
 
-### Consultas
+### Base de datos
 
 #### Listado con posibilidad de filtrado
 
