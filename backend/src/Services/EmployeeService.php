@@ -59,7 +59,7 @@ class EmployeeService extends AppService
         return $arPost;
     }//insert
     
-    public function index($iPage)
+    public function index($iPage,$sSearch="")
     {
         $oEmpleado = new EmployeeModel();
         $oEmpleado->set_perpage(50);

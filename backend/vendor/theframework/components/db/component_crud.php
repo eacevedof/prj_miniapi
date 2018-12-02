@@ -3,7 +3,7 @@
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
  * @name TheFramework\Components\Db\ComponentCrud 
- * @file component_crud.php 2.3.0
+ * @file component_crud.php 2.4.0
  * @date 01-12-2018 13:04 SPAIN
  * @observations
  */
@@ -19,12 +19,14 @@ class ComponentCrud
     private $arNumeric; //si esta en este array no se escapa con '
     private $arOrderBy;
     private $arAnds;
+    private $arJoins;
     
     private $isDistinct;
     private $arUpdateFV;
     private $arPksFV;
     private $arGetFields;
     private $arResult;
+    private $arEnd;
     
     private $oDB;
     
@@ -37,6 +39,7 @@ class ComponentCrud
      */
     public function __construct($oDB=NULL)
     { 
+        $this->arEnd = array();
         $this->arResult = array();
         $this->arInsertFV = array();
         $this->arUpdateFV = array();
@@ -62,8 +65,20 @@ class ComponentCrud
         return $sOrderBy;
     }
     
-    private function is_numeric($sFieldName){return in_array($sFieldName,$this->arNumeric);}
+    private function get_joins()
+    {
+        $sJoin = " ".implode("\n",$this->arJoins);
+        return $sJoin;        
+    }
     
+    private function get_end()
+    {
+        $sEnd = " ".implode("\n",$this->arEnd);
+        return $sEnd;        
+    }    
+    
+    private function is_numeric($sFieldName){return in_array($sFieldName,$this->arNumeric);}
+        
     public function autoinsert($sTable=NULL,$arFieldVal=array())
     {
         //Limpio la consulta 
@@ -161,6 +176,7 @@ class ComponentCrud
                 $arAux = array_merge($arAux,$this->arAnds);
                 $sSQL .= " WHERE ".implode(" AND ",$arAux);
                 
+                $sSQL .= $this->get_end();
                 $this->sSQL = $sSQL;
                 //si hay bd intenta ejecutar la consulta
                 $this->query("w");
@@ -304,8 +320,9 @@ class ComponentCrud
     public function get_selectfrom($sTable=NULL,$arFields=array(),$arPksFV=array())
     {
         //Limpio la consulta 
-        $this->sSQL = "-- get_values";
+        $this->sSQL = "-- get_selectfrom";
         
+        $sSQLComment = "";
         if($this->sSQLComment)
             $sSQLComment = "/*$this->sSQLComment*/";
         
@@ -319,13 +336,14 @@ class ComponentCrud
             if(!$arPksFV)
                 $arPksFV = $this->arPksFV;
             
-            if($arFields && $arPksFV)
+            if($arFields)
             {    
                 $sSQL = "$sSQLComment SELECT ";
                 if($this->isDistinct) $sSQL.= "DISTINCT ";
                 $sSQL .= implode(",",$arFields)." ";
                 $sSQL .= "FROM $sTable";
                 
+                $sSQL .= $this->get_joins();
                 //condiciones con las claves
                 $arAux = array();
                 foreach($arPksFV as $sField=>$sValue)
@@ -339,9 +357,11 @@ class ComponentCrud
                 }
                 
                 $arAux = array_merge($arAux,$this->arAnds);
-                $sSQL .= " WHERE ".implode(" AND ",$arAux);
+                if($arAux)
+                    $sSQL .= " WHERE ".implode(" AND ",$arAux);
                 
                 $sSQL .= $this->get_orderby();
+                $sSQL .= $this->get_end();
                 $this->sSQL = $sSQL;
                 //bug($sSQL);die;
                 $this->query();
@@ -497,6 +517,10 @@ class ComponentCrud
     public function set_getfields($arFields=array()){$this->arGetFields = array(); if(is_array($arFields)) $this->arGetFields=$arFields;}
     public function add_getfield($sFieldName){$this->arGetFields[]=$sFieldName;}
 
+    public function set_joins($arJoins=array()){$this->arJoins = array(); if(is_array($arJoins)) $this->arJoins=$arJoins;}
+    public function set_orderby($arOrderBy=array()){$this->arOrderBy = array(); if(is_array($arOrderBy)) $this->arOrderBy=$arOrderBy;}
+    public function set_end($arEnd=array()){$this->arEnd = array(); if(is_array($arEnd)) $this->arEnd=$arEnd;}
+    
     public function get_sql(){return $this->sSQL;}
     
     /**
@@ -605,16 +629,19 @@ class ComponentCrud
         }
     }//query
     
-    
     public function get_result(){$this->arResult;}
     public function is_distinct($isOn=TRUE){$this->isDistinct=$isOn;}
     public function add_orderby($sFieldName,$sOrder="ASC"){$this->arOrderBy[$sFieldName]=$sOrder;}
     public function add_numeric($sFieldName){$this->arNumeric[]=$sFieldName;}
-    public function add_ands($sFieldName,$sValue,$sOper="="){$this->arAnds[]="$sFieldName $sOper $sValue";}
+    public function add_and($sAnd){$this->arAnds[]=$sAnd;}
+    public function add_and1($sFieldName,$sValue,$sOper="="){$this->arAnds[]="$sFieldName $sOper $sValue";}
+    public function add_join($sJoin,$sKey=NULL){if($sKey)$this->arJoins[$sKey]=$sJoin;else$this->arJoins[]=$sJoin;}
+    public function add_end($sEnd,$sKey=NULL){if($sKey)$this->arEnd[$sKey]=$sEnd;else$this->arEnd[]=$sEnd;}
     
     protected function add_error($sMessage){$this->isError = TRUE;$this->arErrors[]=$sMessage;}
     public function is_error(){return $this->isError;}
     public function get_errors($inJson=0){if($inJson) return json_encode($this->arErrors); return $this->arErrors;}
     public function get_error($i=0){isset($this->arErrors[$i])?$this->arErrors[$i]:NULL;}
-    public function show_errors(){echo "<pre>".var_export($this->arErrors,1);}       
-}//Crud 2.1.0
+    public function show_errors(){echo "<pre>".var_export($this->arErrors,1);}     
+    
+}//Crud 2.4.0

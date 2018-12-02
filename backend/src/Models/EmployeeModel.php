@@ -3,13 +3,14 @@
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
  * @name App\Models\EmployeeModel 
- * @file EmployeeModel.php v1.0.0
+ * @file EmployeeModel.php v2.0.0
  * @date 29-11-2018 19:00 SPAIN
  * @observations
  */
 namespace App\Models;
 
 use App\Models\AppModel;
+use TheFramework\Components\Db\ComponentCrud;
 
 class EmployeeModel extends AppModel
 {
@@ -28,6 +29,8 @@ class EmployeeModel extends AppModel
         $this->load_pk_fields();
         $this->load_fileds();
         $this->load_queries();
+        
+        //$this->get_list_obj();
     }
     
     //hace un mapeo de los campos que vienen del formulario y los campos reales en bd
@@ -49,17 +52,92 @@ class EmployeeModel extends AppModel
         $this->arPks = ["emp_no"];
     }//load_pk_fields  
     
+    private function get_list_obj()
+    {
+        $oCrud = new ComponentCrud();
+        $oCrud->set_comment("list");
+        $oCrud->set_table("$this->sTable e");
+        $oCrud->add_getfield("e.`emp_no` AS id");
+        $oCrud->add_getfield("e.`first_name` AS nombre");
+        $oCrud->add_getfield("e.`last_name` AS apellidos");
+        $oCrud->add_getfield("e.`hire_date` AS fecha_contratacion");
+        $oCrud->add_getfield("t.`title` AS cargo");
+        $oCrud->add_getfield("s.`salary` AS salario");
+        $oCrud->add_getfield("d.`dept_name` AS departamento");
+        $oCrud->add_join("
+        LEFT JOIN 
+        (
+            -- cargo empleado por fecha
+            SELECT t.emp_no,t.title
+            FROM titles t
+            INNER JOIN 
+            (
+                -- fecha más actual por empleado
+                SELECT emp_no,MAX(from_date) from_date
+                FROM titles 
+                GROUP BY emp_no
+            ) tgroup
+            ON t.emp_no = tgroup.emp_no
+            AND t.from_date = tgroup.from_date
+        ) t
+        ON e.`emp_no` = t.`emp_no`
+        LEFT JOIN 
+        (
+        -- slario empleado por fecha
+            SELECT s.emp_no,s.salary
+            FROM salaries s
+            INNER JOIN 
+            (
+                -- fecha más actual por empleado
+                SELECT emp_no,MAX(from_date) from_date
+                FROM salaries 
+                GROUP BY emp_no
+            ) tgroup
+            ON s.emp_no = tgroup.emp_no
+            AND s.from_date = tgroup.from_date        
+        ) s
+        ON e.`emp_no` = s.`emp_no`
+        LEFT JOIN 
+        (
+            SELECT m.emp_no,m.dept_no
+            FROM dept_manager m
+            INNER JOIN
+            (
+                -- los departamentos en caso de ser manager 
+                SELECT emp_no,MAX(from_date) from_date
+                FROM dept_manager 
+                GROUP BY emp_no
+            )tgroup
+            ON m.emp_no = tgroup.emp_no
+            AND m.from_date = tgroup.from_date
+            
+                UNION 
+            -- los departamentos de empleados
+            SELECT e.emp_no,e.dept_no
+            FROM dept_emp e
+            INNER JOIN
+            (
+                -- los departamentos en caso de ser manager 
+                SELECT emp_no,MAX(from_date) from_date
+                FROM dept_emp
+                GROUP BY emp_no
+            )tgroup
+            ON e.emp_no = tgroup.emp_no
+            AND e.from_date = tgroup.from_date
+            
+        ) AS dept
+        ON e.`emp_no` = dept.emp_no
+        INNER JOIN departments d
+        ON dept.dept_no = d.`dept_no`");
+        $oCrud->add_orderby("e.`hire_date`");
+        $oCrud->add_end("LIMIT 0,50");
+        $oCrud->get_selectfrom();
+        return $oCrud;
+    }//get_list
+    
     public function load_queries()
     {
-/*
-id (employees.emp_no)
-nombre (employees.first_name) 
-apellidos (employees.last_name)
-fecha_contratacion (employees.hire_date)
-cargo (titles.title) 
-salario (salaries.salary)
-departamento (departments.dept_name)
-*/         
+     
         $this->arQueries["get_list"] ="        
         /*EmployeeModel.get_list*/
         SELECT e.`emp_no` AS id
