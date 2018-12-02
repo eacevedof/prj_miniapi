@@ -597,7 +597,7 @@ class ComponentCrud
         return NULL;
     }//get_nextcode()
     
-    private function get_sanitized($sValue)
+    public function get_sanitized($sValue)
     {
         $sFixed = str_replace("'","\'",$sValue);
         $sFixed = str_replace("%","\%",$sFixed);
@@ -642,6 +642,7 @@ class ComponentCrud
     public function is_error(){return $this->isError;}
     public function get_errors($inJson=0){if($inJson) return json_encode($this->arErrors); return $this->arErrors;}
     public function get_error($i=0){isset($this->arErrors[$i])?$this->arErrors[$i]:NULL;}
-    public function show_errors(){echo "<pre>".var_export($this->arErrors,1);}     
+    public function show_errors(){echo "<pre>".var_export($this->arErrors,1);}
+    public function set_dbobj($oDb=NULL){$this->oDB=$oDb;}
     
 }//Crud 2.4.0

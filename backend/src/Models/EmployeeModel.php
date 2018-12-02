@@ -330,8 +330,8 @@ salario (salaries.salary)
          */
         $oCrud = $this->get_query_obj();
         $oCrud->set_comment("get_count");
-        //$oCrud->set_getfields("COUNT(e.id) iemp");
-        $oCrud->set_getfields("e.id");
+        $oCrud->set_getfields(["e.emp_no"]);
+        $oCrud->set_getfields(["COUNT(e.emp_no) i"]);
         if($this->sSearch)
         {
             $sSearch = $this->sSearch;
@@ -346,15 +346,13 @@ salario (salaries.salary)
                 d.dept_name LIKE '%$sSearch%'
             )");
         }
-        //$oCrud->add_orderby("e.`hire_date`");
-        //$oCrud->add_end("LIMIT 0,50");        
-        //$sSQL = $this->arQueries["get_list"];
+
         $oCrud->get_selectfrom();
+        //pr($oCrud);die;
         $sSQL = $oCrud->get_sql();
-        bug($sSQL,"COUNT");die;
         $this->log($sSQL);
-        $arRows = $this->oDb->query($sSQL);
-        return count($arRows);
+        $iRows = $this->oDb->query($sSQL,0,0);
+        return $iRows;
     }//get_count
 
     // listado
@@ -383,8 +381,8 @@ salario (salaries.salary)
         $oCrud->add_end("LIMIT $iFrom,$this->iPerPage");
         $oCrud->get_selectfrom();
         $sSQL = $oCrud->get_sql();
-        bug($sSQL);die;
-        $this->log($sSQL);
+        //bug($sSQL);die;
+        //$this->log($sSQL);
         $arRows = $this->oDb->query($sSQL);
         return $arRows;
     }//get_list

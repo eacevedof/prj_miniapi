@@ -3,8 +3,8 @@
  * @author Eduardo Acevedo Farje.
  * @link www.eduardoaf.com
  * @name TheFramework\Components\Db\ComponentMysql 
- * @file component_mysql.php v1.0.0
- * @date 01-12-2018 13:20 SPAIN
+ * @file component_mysql.php v2.0.0
+ * @date 02-12-2018 13:20 SPAIN
  * @observations
  */
 namespace TheFramework\Components\Db;
@@ -36,7 +36,24 @@ class ComponentMysql
         return $sString;
     }//get_conn_string
 
-    public function query($sSQL)
+    private function get_rowcol($arResult,$iCol=NULL,$iRow=NULL)
+    {
+        if(is_int($iCol) || is_int($iRow))
+        {
+            $arColnames = $arResult[0];
+            $arColnames = array_keys($arColnames);
+//bug($arColnames);
+            $sColname = (isset($arColnames[$iCol])?$arColnames[$iCol]:"");
+            if($sColname)
+                $arResult = array_column($arResult,$sColname);
+        
+            if(isset($arResult[$iRow]))
+                $arResult = $arResult[$iRow];
+        }
+        return $arResult;
+    }
+    
+    public function query($sSQL,$iCol=NULL,$iRow=NULL)
     {
         try 
         {
@@ -56,7 +73,11 @@ class ComponentMysql
                 $arResult = [];
                 while($arRow = $oCursor->fetch(\PDO::FETCH_ASSOC))
                     $arResult[] = $arRow;
+                
                 $this->iAffected = count($arResult);
+                
+                if($arResult)
+                    $arResult = $this->get_rowcol($arResult,$iCol,$iRow);
             }
         }
         catch(PDOException $oE)
