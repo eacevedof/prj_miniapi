@@ -403,11 +403,16 @@ salario (salaries.salary)
     public function get_pagination()
     {
         $iPerPage = $this->iPerPage;
+        $iFullPages = 0;
         $iTotRegs = $this->get_count();
-        //las paginas completas, es decir con 50 regs
-        $iFullPages = ceil($iTotRegs/$iPerPage)-1;
-        $iRegsRemained = $iTotRegs%$iPerPage;
-        if($iRegsRemained>0) $iFullPages++;
+        
+        if($iTotRegs>0)
+        {
+            //las paginas completas, es decir con 50 regs
+            $iFullPages = ceil($iTotRegs/$iPerPage)-1;
+            $iRegsRemained = $iTotRegs%$iPerPage;
+            if($iRegsRemained>0) $iFullPages++;
+        }
 
         $arPages["currpage"] = $this->iPage;
         $arPages["totpages"] = (int)$iFullPages;
