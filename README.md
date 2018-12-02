@@ -1,4 +1,4 @@
-# Mini API REST
+# API REST Empleados con PHP y Vuejs
 
 > Repo: https://github.com/eacevedof/prj_miniapi
 
@@ -8,7 +8,7 @@
 
 ## Frontend:
 
-- En este fichero `<project>\frontend\static\config.js` se configura el **endpoint** raíz de la API. 
+- En este fichero [`<project>\frontend\static\config.js`](https://github.com/eacevedof/prj_miniapi/blob/master/frontend/static/config.js) se configura el **endpoint** raíz de la API. 
 
 - `/`: listado de empleados
 - `/employee/profile/{emp_no}`: Perfil del empleado
@@ -41,7 +41,9 @@ Esto sirve bootstrap (con vue.js)
 php -S localhost:9000 -t frontend
 ```
 
-- En este fichero `prj_miniapi\backend\src\config\config.php` se configura la base de datos.
+- En este fichero [`prj_miniapi\backend\src\config\config.php`](https://github.com/eacevedof/prj_miniapi/blob/master/backend/src/config/config.php) 
+se configura la base de datos.
+- Es importante cambiar la constante `define("ENV","d")`
 
 ### Endpoints
 
