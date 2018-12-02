@@ -59,14 +59,15 @@ class EmployeeService extends AppService
         return $arPost;
     }//insert
     
-    public function index($iPage,$sSearch="")
+    public function index($iPage,$sSearchTag="")
     {
         $oEmpleado = new EmployeeModel();
+        $oEmpleado->set_search($sSearchTag);
         $oEmpleado->set_perpage(50);
         $oEmpleado->set_page($iPage);
         $arRows = $oEmpleado->get_list();
-        $arPagination = $oEmpleado->get_pagination(); 
-        return ["data"=>$arRows,"pagination"=>$arPagination];
+        $arPagination = $oEmpleado->get_pagination();
+        return ["data"=>$arRows,"pagination"=>$arPagination,"searchtag"=>$sSearchTag];
     }//index
     
     public function profile($id)

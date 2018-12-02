@@ -28,10 +28,11 @@ class EmployeesController extends AppController
      */
     public function index()
     {
+        $sSearchTag = $this->get_get("s");
         $iPage = $this->get_get("page");
         if(!$iPage) $iPage=1;
         $oEmployeeSrv = new EmployeeService();
-        $arResult = $oEmployeeSrv->index($iPage);
+        $arResult = $oEmployeeSrv->index($iPage,$sSearchTag);
         $this->show_json_ok($arResult,0);
     }//index
     

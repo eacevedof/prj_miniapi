@@ -381,8 +381,7 @@ salario (salaries.salary)
         $oCrud->add_end("LIMIT $iFrom,$this->iPerPage");
         $oCrud->get_selectfrom();
         $sSQL = $oCrud->get_sql();
-        //bug($sSQL);die;
-        //$this->log($sSQL);
+        $this->log($sSQL);
         $arRows = $this->oDb->query($sSQL);
         return $arRows;
     }//get_list
