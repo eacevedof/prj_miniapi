@@ -12,13 +12,13 @@
 
 ### Live
 
-- http://employees.eduardoaf.com/
+- http://employees.eduardoaf.com/admin/
 - http://employees.eduardoaf.com/admin/employees/profile/{emp_no}
     - http://employees.eduardoaf.com/admin/employees/profile/10550
 
-- `/`: listado de empleados
-- `/employees/profile/{emp_no}`: Perfil del empleado
-- `/employees/new`: Crear un empleado
+- `/admin/`: Panel principal
+- `/admin/employees/profile/{emp_no}`: Perfil del empleado
+- `/admin/employees/new`: Crear un empleado
 
 ### Instalación
 - En este fichero [`<project>\frontend\static\config.js`](https://github.com/eacevedof/prj_miniapi/blob/master/frontend/static/config.js) se configura el **endpoint** raíz de la API. 
