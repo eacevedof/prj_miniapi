@@ -12,11 +12,11 @@
 
 ### Live
 
-- http://employees.eduardoaf.com/admin/
+- http://employees.eduardoaf.com/admin
 - http://employees.eduardoaf.com/admin/employees/profile/{emp_no}
     - http://employees.eduardoaf.com/admin/employees/profile/10550
 
-- `/admin/`: Panel principal
+- `/admin`: Panel principal
 - `/admin/employees/profile/{emp_no}`: Perfil del empleado
 - `/admin/employees/new`: Crear un empleado
 
