@@ -18,9 +18,11 @@ class EmployeeModel extends AppModel
     private $iPage;
 
     private $arQueries;
+    private $sSearch;
 
     public function __construct() 
     {
+        $this->sSearch = "";
         $this->arQueries = [];
         $this->sTable = "employees";
         $this->iPage = 1;
@@ -52,7 +54,7 @@ class EmployeeModel extends AppModel
         $this->arPks = ["emp_no"];
     }//load_pk_fields  
     
-    private function get_list_obj()
+    private function get_query_obj()
     {
         $oCrud = new ComponentCrud();
         $oCrud->set_comment("list");
@@ -129,8 +131,8 @@ class EmployeeModel extends AppModel
         ON e.`emp_no` = dept.emp_no
         INNER JOIN departments d
         ON dept.dept_no = d.`dept_no`");
-        $oCrud->add_orderby("e.`hire_date`");
-        $oCrud->add_end("LIMIT 0,50");
+        //$oCrud->add_orderby("e.`hire_date`");
+        //$oCrud->add_end("LIMIT 0,50");
         $oCrud->get_selectfrom();
         return $oCrud;
     }//get_list
@@ -321,12 +323,39 @@ salario (salaries.salary)
         return $arRow[0]["empno"];
     }//get_newcode
     
-    public function get_total_regs()
+    public function get_count()
     {
-        $sSQL = $this->arQueries["get_list"];
+        /**
+         * type ComponentCrud
+         */
+        $oCrud = $this->get_query_obj();
+        $oCrud->set_comment("get_count");
+        //$oCrud->set_getfields("COUNT(e.id) iemp");
+        $oCrud->set_getfields("e.id");
+        if($this->sSearch)
+        {
+            $sSearch = $this->sSearch;
+            $sSearch = $oCrud->get_sanitized($sSearch);
+            $oCrud->add_and("(
+                e.emp_no LIKE '%$sSearch%' OR
+                e.first_name LIKE '%$sSearch%' OR
+                e.last_name LIKE '%$sSearch%' OR
+                e.hire_date LIKE '%$sSearch%' OR
+                t.title LIKE '%$sSearch%' OR
+                s.salary LIKE '%$sSearch%' OR
+                d.dept_name LIKE '%$sSearch%'
+            )");
+        }
+        //$oCrud->add_orderby("e.`hire_date`");
+        //$oCrud->add_end("LIMIT 0,50");        
+        //$sSQL = $this->arQueries["get_list"];
+        $oCrud->get_selectfrom();
+        $sSQL = $oCrud->get_sql();
+        bug($sSQL,"COUNT");die;
+        $this->log($sSQL);
         $arRows = $this->oDb->query($sSQL);
         return count($arRows);
-    }//get_total_regs
+    }//get_count
 
     // listado
     public function get_list()
@@ -334,12 +363,28 @@ salario (salaries.salary)
         $iPage = ($this->iPage-1);
         $iFrom = $iPage*$this->iPerPage;
         
-        $sSQL = $this->arQueries["get_list"];
-        $sSQL .= "
-        ORDER BY e.`hire_date` ASC
-        LIMIT $iFrom,$this->iPerPage
-        ";
-        $this->log($sSQL,"-- EmployeeModel.get_list");
+        $oCrud = $this->get_query_obj();
+        $oCrud->set_comment("get_list");
+        if($this->sSearch)
+        {
+            $sSearch = $this->sSearch;
+            $sSearch = $oCrud->get_sanitized($sSearch);
+            $oCrud->add_and("(
+                e.emp_no LIKE '%$sSearch%' OR
+                e.first_name LIKE '%$sSearch%' OR
+                e.last_name LIKE '%$sSearch%' OR
+                e.hire_date LIKE '%$sSearch%' OR
+                t.title LIKE '%$sSearch%' OR
+                s.salary LIKE '%$sSearch%' OR
+                d.dept_name LIKE '%$sSearch%'
+            )");
+        }        
+        $oCrud->add_orderby("e.`hire_date`");
+        $oCrud->add_end("LIMIT $iFrom,$this->iPerPage");
+        $oCrud->get_selectfrom();
+        $sSQL = $oCrud->get_sql();
+        bug($sSQL);die;
+        $this->log($sSQL);
         $arRows = $this->oDb->query($sSQL);
         return $arRows;
     }//get_list
@@ -361,7 +406,7 @@ salario (salaries.salary)
     public function get_pagination()
     {
         $iPerPage = $this->iPerPage;
-        $iTotRegs = $this->get_total_regs();
+        $iTotRegs = $this->get_count();
         //las paginas completas, es decir con 50 regs
         $iFullPages = ceil($iTotRegs/$iPerPage)-1;
         $iRegsRemained = $iTotRegs%$iPerPage;
@@ -378,7 +423,7 @@ salario (salaries.salary)
 
     public function get_gender()
     {
-        $oCrud = new \TheFramework\Components\Db\ComponentCrud($this->oDb);
+        $oCrud = new ComponentCrud($this->oDb);
         $oCrud->set_comment("EmployeeModel.get_gender");
         $oCrud->set_table($this->sTable);
         $oCrud->is_distinct();
@@ -394,7 +439,8 @@ salario (salaries.salary)
     
     public function set_perpage($iValue){$this->iPerPage = ($iValue===0)?1:$iValue;}
     public function set_page($iValue){$this->iPage = $iValue;}
-
+    public function set_search($sValue){$this->sSearch=$sValue;}
+    
 }//EmployeeModel
 
 /*
