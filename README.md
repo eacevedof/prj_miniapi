@@ -13,8 +13,8 @@
 ### Live
 
 - http://employees.eduardoaf.com/
-- http://employees.eduardoaf.com/employees/profile/{emp_no}
-    - http://employees.eduardoaf.com/employees/profile/10550
+- http://employees.eduardoaf.com/admin/employees/profile/{emp_no}
+    - http://employees.eduardoaf.com/admin/employees/profile/10550
 
 - `/`: listado de empleados
 - `/employees/profile/{emp_no}`: Perfil del empleado
