@@ -181,20 +181,20 @@ SELECT e.`emp_no` AS id
 FROM employees e
 LEFT JOIN 
 (
-	-- cargo empleado por fecha
-	SELECT t.emp_no,t.title
-	FROM titles t
-	INNER JOIN 
-	(
-		-- fecha más actual por empleado
-		SELECT emp_no,MAX(from_date) from_date
-		FROM titles
-		WHERE 1
-		AND emp_no={id}
-		GROUP BY emp_no
-	) tgroup
-	ON t.emp_no = tgroup.emp_no
-	AND t.from_date = tgroup.from_date
+    -- cargo empleado por fecha
+    SELECT t.emp_no,t.title
+    FROM titles t
+    INNER JOIN 
+    (
+        -- fecha más actual por empleado
+        SELECT emp_no,MAX(from_date) from_date
+        FROM titles
+        WHERE 1
+        AND emp_no={id}
+        GROUP BY emp_no
+    ) tgroup
+    ON t.emp_no = tgroup.emp_no
+    AND t.from_date = tgroup.from_date
 ) t
 ON e.`emp_no` = t.`emp_no`
 LEFT JOIN 
