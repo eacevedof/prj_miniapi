@@ -4,6 +4,8 @@
 
 > Repo: https://github.com/eacevedof/prj_miniapi
 
+> [Especificaciones](https://docs.google.com/document/d/1OjpH4HSNwnkJvEKZUx7cf5dCJuQZ15a1gqYmf9lYEq4/edit?usp=sharing)
+
 <hr/>
 
 ## Frontend:
